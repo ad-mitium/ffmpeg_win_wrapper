@@ -61,7 +61,7 @@ def hwtest():
         colors.print_yellow(HW_TEST)
         exit_on_error()
 
-def opttest(F_OPTIONS):
+def opttest(F_OPTIONS,Message):
     if OPT_TEST == None:
         colors.print_blue_no_cr(Message)
         colors.print_yellow (F_OPTIONS)
@@ -105,30 +105,30 @@ def action_test():
     if (action == 'subtrans'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB
         Message="Subtitle option request detected and the options are: \n   "
-        opttest(FFMPEG_OPTIONS)
+        opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'subtrans265'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC
         Message="Subtitle HEVC option request detected and the options are: \n   "
-        opttest(FFMPEG_OPTIONS)
+        opttest(FFMPEG_OPTIONS, Message)
     # elif (action == 'spec'): 
     #     FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL
     #     Message="Special option request detected and the options are: \n   "
-    #     opttest(FFMPEG_OPTIONS)
+    #     opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'copy'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY
         Message="Copy option request detected and the options are: \n   "
-        opttest(FFMPEG_OPTIONS)
+        opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'copysub265'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB_HEVC
         Message="Copy subtitle HEVC option request detected and the options are: \n   "
-        opttest(FFMPEG_OPTIONS)
+        opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'trans265'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_HEVC
         Message="Transcode HEVC option request detected and the options are: \n   "
-        opttest(FFMPEG_OPTIONS)
+        opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'transcode'): 
         Message="Transcode H.264 option request detected and the options are: \n   "
-        opttest(FFMPEG_OPTIONS)
+        opttest(FFMPEG_OPTIONS, Message)
             
     else:
         raise SystemExit("No action option offered!  Exiting.")
@@ -194,9 +194,9 @@ ext=args.ext
 if not (args.report_file is None):
     report_file_name=args.report_file
     stdout_file_name=report_file_name+'.out'
-    stdout_file=os.path.join(base_dir / stdout_file_name)
+    stdout_file=os.path.join(base_dir , stdout_file_name)
     stderr_file_name=report_file_name+'.err'
-    stderr_file=os.path.join(base_dir / stderr_file_name)
+    stderr_file=os.path.join(base_dir , stderr_file_name)
     report_file_names=[stderr_file,stdout_file]
 
 enabled_copy=args.disable_copy_file
