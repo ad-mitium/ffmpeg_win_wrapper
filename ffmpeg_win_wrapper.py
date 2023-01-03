@@ -32,7 +32,7 @@ extension='mp4'
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 1)
+version_number = (0, 0, 2)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
