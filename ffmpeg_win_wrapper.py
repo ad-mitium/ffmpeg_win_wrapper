@@ -7,7 +7,7 @@ from time import strftime
 from lib import version as ver
 from lib import colors
 from lib.ffmpeg_options import amd,nvidia,default_none,copy_files
-from lib.dest_folder import out_dir_dict,out_dir,report_folder,local_folder
+from lib.dest_folders import out_dir_dict,out_dir,report_folder,local_folder
 
 ##############################################################################
 #####                                                                    #####

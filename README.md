@@ -8,11 +8,11 @@ I am not an expert on FFMPEG, so please don't ask for help on that front. And wh
 
 ## Usage
 
-This script uses FFMPEG to transcode a video from one format to another, whether it be a straight copy from one video container to another (currently MP4), transcode from one format to another, transcode a video with subtitles to another format or transcode a video using customized options provided in the commandline. Once the video is transcoded, it will copy the new video to pre-specified location(s).
+This script uses FFMPEG to transcode a video from one format to another, whether it be a straight copy from one video container to another (currently MP4), transcode from one format to another, transcode a video with subtitles to another format or transcode a video using customized options provided in the commandline. Once the video is transcoded, it will copy the new video to a pre-specified location(s).
 
-Some user configurable options exist in the script to tailor its behavior and destination locations.
+Some user configurable options exist in the script to tailor its behavior and destination locations.  Most are in the `lib` folder.
 
-At any point, using the -opt flag will override what ever the default transcode action that was provided.
+At any point, using the -opt flag will override whatever the default transcode action that was provided.
 
 ### **Code execution as follows:**
 
@@ -31,7 +31,7 @@ Note that for the last example, ffmpeg will be executed as:
 
     ffmpeg -i input.mkv -c:v copy -c:a copy 'My Video.mp4'
 
-And not using the default subttle transcoding options:
+And it will not use the default subttle transcoding options:
 
     ffmpeg -i input.mkv -map 0:v -map 0:a -map 0:2? -c:v libx264 -preset fast -crf 23 -c:a copy -c:s mov_text -metadata:s:s:0 language=en 'My Video.mp4'
 
