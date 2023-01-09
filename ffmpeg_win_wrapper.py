@@ -21,6 +21,8 @@ GPU='None'   # For any GPU, change to AMD for AMD GPUs, change to NVIDIA for NVI
 
 extension='mp4'
 
+stream=2
+
 ##############################################################################
 #####                                                                    #####
 #####           End of configurable variables for this script            #####
@@ -33,7 +35,7 @@ extension='mp4'
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 4)
+version_number = (0, 0, 5)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -98,15 +100,15 @@ def action_test():
     #########   Determine transcode action   #########
     global FFMPEG_OPTIONS
     if (action == 'subtrans'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(stream=stream)
         Message="Subtitle option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'subtrans265'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(stream=stream)
         Message="Subtitle HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'special_sub'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(stream=stream)
         Message="Special subtitle transcode option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'special_trans'): 
@@ -118,7 +120,7 @@ def action_test():
         Message="Copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'copysub265'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB_HEVC
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB_HEVC.format(stream=stream)
         Message="Copy subtitle HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'trans265'): 
@@ -170,6 +172,7 @@ parser.add_argument('-nc','--disable-copy-file', action='store_false',help='''En
 parser.add_argument('-opt','--ffmpeg-option', help='''Custom ffmpeg options, options must be wrapped in apostrophes (-opt 'options') 
 Options should start with a - (see examples below)''') 
 parser.add_argument('-r','--report-file', help='''Enter STDIO report file name (deprecated)''') 
+parser.add_argument('-s','--sub-stream', default=stream, help='''Select subtitle stream, defaults to 2''') 
 parser.add_argument('-v','--version', action='version', version='%(prog)s {}'.format(ver.ver_info(version_number)), help='show the version number and exit')
 args = parser.parse_args()
 
@@ -195,6 +198,12 @@ enabled_transcode=args.tc_disable
 
 print ('GPU is', end=" ")
 colors.print_red(args.gpu)
+
+stream=args.sub_stream
+
+print ('Subtitle stream is', end=" ")
+colors.print_red(stream)
+stream=args.sub_stream
 
 # if not enabled_dict:
 #     colors.print_red("Dictionary disabled")   # For debugging

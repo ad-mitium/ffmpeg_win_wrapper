@@ -48,6 +48,7 @@ The following optional flags are:
     -nc, --disable-copy-file    Disables copying to folder(s)
     -opt, --ffmpeg-option       Override default options for custom options  
     -r, --report-file           Output files copied to file (Deprecated)
+    -s, --sub-stream            Select subtitle stream, defaults to 2
     -v, --version               Outputs current version
     
     -h, --help                  Ouputs helpful(maybe?) usage information for this script
@@ -81,6 +82,6 @@ TermColor
 ## To Do
 
 * Add "special" high quality video settings for intel and nvidia gpus after testing (Hardware needed)
-* Add ability to insert stream channel instead of defaulting to first sub stream
+* ~~Add ability to insert stream channel instead of defaulting to first sub stream~~
 * Reduce the number of locations to update when adding new actions, currently three locations in two separte files need to be changed
 * TBD
