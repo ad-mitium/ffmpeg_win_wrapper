@@ -87,17 +87,11 @@ def copy_to_remote():
     if enabled_copy:
         test_path(full_out_path)
         shutil.copy(output_filename_ext, full_out_path)
-        colors.print_cyan_no_cr(out_dir_name)
-        print("", end =" ")
-        colors.print_yellow_no_cr(output_filename_ext)
-        print(' copied to', end =" ")
-        colors.print_yellow(full_out_path)
-    else:
-        colors.print_cyan_no_cr(out_dir_name)
-        print("", end =" ")
-        colors.print_yellow_no_cr(output_filename_ext)
-        print(' would be copied to', end =" ")
-        colors.print_yellow(full_out_path)
+    colors.print_cyan_no_cr(out_dir_name)
+    print("", end =" ")
+    colors.print_yellow_no_cr(output_filename_ext)
+    print('{} copied to'.format('' if enabled_copy else ' would be'), end =" ")
+    colors.print_yellow(full_out_path)
 
 def action_test():
     #########   Determine transcode action   #########
@@ -303,10 +297,10 @@ if enabled_dict:
 else:
     colors.print_red("Dictionary disabled")
     for out_dir_path in out_dir:
-        # print (i)
-        full_out_path=joinpath(out_dir_path,output_path)
-        # print("  " , full_out_path)
         out_dir_name=out_dir_path
+        # print (out_dir_name)
+        # print (out_dir_path)
+        full_out_path=joinpath(out_dir_path,output_path)
         copy_to_remote()
 # print("\r.")
 
