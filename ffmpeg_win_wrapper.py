@@ -43,13 +43,28 @@ def joinpath(rootdir, targetdir):
     return os.path.join(os.sep, rootdir + os.sep, targetdir)
 
 def exit_on_error():
-        answer = input("Continue with default options? [y/N]  ").lower()
-        if answer == 'y':
-            print("Continuing with default options")
-        else:
-            print("Exiting.")
-            raise SystemExit(0)
+    answer = input("Continue with default options? [y/N]  ").lower()
+    if answer == 'y':
+        print("Continuing with default options")
+    else:
+        print("Exiting.")
+        raise SystemExit(0)
     
+def check_num(num): # Sanity test for input
+    limit=10        # Don't dwell on failure forever
+    for i in (range(limit, -1, -1)):
+        if i > 0:
+            # num=input("Please enter a valid integer")
+            try: 
+                int(num)
+                # print("Valid integer: ", num)
+                return num
+            except ValueError:
+                num=input("Please enter a valid integer: ")
+                i=i-1
+        else:
+            raise SystemExit('Too many failures to enter a valid integer, exiting.')
+
 def hwtest():
     if HW_TEST == None:
         colors.print_blue("Default hardware options to be used")
@@ -201,9 +216,11 @@ colors.print_red(args.gpu)
 
 stream=args.sub_stream
 
+stream=check_num(stream)
+
 print ('Subtitle stream is', end=" ")
 colors.print_red(stream)
-stream=args.sub_stream
+# stream=args.sub_stream
 
 # if not enabled_dict:
 #     colors.print_red("Dictionary disabled")   # For debugging
