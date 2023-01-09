@@ -95,10 +95,13 @@ def opttest(F_OPTIONS,Message):
         exit_on_error()
 
 def test_path(output_folder_path):
-    if os.path.exists(os.path.dirname(output_folder_path)):
+    if os.path.exists((output_folder_path)):
+    # if os.path.exists(os.path.dirname(output_folder_path)):
         # print(os.path.dirname(output_folder_path))
+        # print(output_folder_path," exists")
         pass
     else:
+        # print(output_folder_path," does not exist")
         Path(output_folder_path).mkdir( parents=True, exist_ok=True)
 
 def copy_to_remote():
@@ -261,6 +264,8 @@ action_test()   # Check what action user wanted
 ########   Echo back info provided   ########
 #print ('Input filename is', end =" ")
 #colors.print_yellow(input_filename)
+#print ('Output folder path is', end=" ")
+#colors.print_yellow(output_path)
 #print ('Output filename is', end=" ")
 if enabled_local_copy:
     output_filename_ext=os.path.join(base_outdir,output_file+'.'+ext)
