@@ -58,17 +58,20 @@ Action commands include (use -opt to specify unique options):
 
     subtrans        Transcode into h.264 format, defaults to 1st sub stream
     subtrans265     Transcode into h.265 format, defaults to 1st sub stream
+    special_sub     Transcode into h.265 format, defaults to 1st sub stream, high quality video
     copy            Straight copy into mp4 container
     copysub265      Copy into mp4 container while transcoding to h.265 format, defaults to 1st sub stream
-    trans265        Transcode into h.265 format 
-    transcode       Transcode into h.264 format 
+    special_trans   Transcode into h.265 format, high quality video
+    trans265        Transcode into h.265 format
+    transcode       Transcode into h.264 format
 
 ## Pitfalls to be aware of
 
 * You need to download a Windows compiled version for FFMPEG from ffmpeg.org (I'm using the one linked to gyan.dev)
 * At this time, the **script will overwrite** any file with the same name at the output location.  (It is this way by design)
 * If you receive an error message regarding a missing output_file, check to see if one of the other required parameters are missing, usually it is the action command or destination folder that is forgotten
-
+* If you are using linux, AMD amf drivers don't exist, use default (None) or modify ffmpeg_options.py to use VAAPI
+  
 ## Required to use this script *(Aside from Python 3)*
 
 TermColor
@@ -77,4 +80,6 @@ TermColor
 
 ## To Do
 
+* Add "special" high quality video settings for intel and nvidia gpus after testing (Hardware needed)
+* Add ability to insert stream channel instead of defaulting to first sub stream
 * TBD

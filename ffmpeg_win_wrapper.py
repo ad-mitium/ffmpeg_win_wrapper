@@ -6,7 +6,7 @@ from pathlib import Path
 from time import strftime
 from lib import version as ver
 from lib import colors
-from lib.ffmpeg_options import amd,nvidia,default_none,copy_files
+from lib.ffmpeg_options import amd,nvidia,default_none,copy_files,special
 from lib.dest_folders import out_dir_dict,out_dir,report_folder,local_folder
 
 ##############################################################################
@@ -110,10 +110,14 @@ def action_test():
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC
         Message="Subtitle HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
-    # elif (action == 'spec'): 
-    #     FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL
-    #     Message="Special option request detected and the options are: \n   "
-    #     opttest(FFMPEG_OPTIONS, Message)
+    elif (action == 'special_sub'): 
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB
+        Message="Special subtitle transcode option request detected and the options are: \n   "
+        opttest(FFMPEG_OPTIONS, Message)
+    elif (action == 'special_trans'): 
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS
+        Message="Special transcode option request detected and the options are: \n   "
+        opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'copy'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY
         Message="Copy option request detected and the options are: \n   "
@@ -163,8 +167,10 @@ Python script that wraps ffmpeg command to transcode a video file with a given f
 epilog='''    Action commands include (use -opt to specify unique options):
         subtrans        Transcode into h.264 format, defaults to 1st sub stream
         subtrans265     Transcode into h.265 format, defaults to 1st sub stream
+        special_sub     Transcode into h.265 format, defaults to 1st sub stream, high quality video
         copy            Straight copy into mp4 container
         copysub265      Copy into mp4 container while transcoding to h.265 format, defaults to 1st sub stream
+        special_trans   Transcode into h.265 format,  high quality video 
         trans265        Transcode into h.265 format 
         transcode       Transcode into h.264 format 
  ''')
@@ -237,6 +243,8 @@ else:
     FFMPEG_OPTIONS_HEVC= default_none['hevc']
 
 # FFMPEG_OPTIONS_SPECIAL="-map 0:v -map 0:a -map 0:2? -c:v copy -c:a copy -c:s mov_text -metadata:s:s:0 language=en"
+FFMPEG_OPTIONS_SPECIAL_SUB=special['special_sub']
+FFMPEG_OPTIONS_SPECIAL_TRANS=special['special_trans']
 
 # print(OPT_TEST)   # For debugging
 
@@ -264,7 +272,7 @@ curr_time=strftime('%H%M%S')
 colors.print_blue("Transcoding is complete.")
 
 # print ("Command to execute is:", command)
-colors.cprint ("Command executed was:", 'green', attrs=['bold'], end =" ")
+colors.cprint ("Command executed was:\n    ", 'green', attrs=['bold'], end=' ')
 colors.print_yellow(command)
 
 print ('  Input filename is: ', end =" ")
