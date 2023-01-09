@@ -35,7 +35,7 @@ stream=2
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 5)
+version_number = (0, 0, 6)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -307,6 +307,7 @@ if enabled_dict:
         # print (out_dir_name)
         # print (out_dir_path)
         full_out_path=joinpath(out_dir_path,output_path)
+        test_path(full_out_path)
         copy_to_remote()
 else:
     colors.print_red("Dictionary disabled")
@@ -315,6 +316,7 @@ else:
         # print (out_dir_name)
         # print (out_dir_path)
         full_out_path=joinpath(out_dir_path,output_path)
+        test_path(full_out_path)
         copy_to_remote()
 # print("\r.")
 
