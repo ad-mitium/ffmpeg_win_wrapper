@@ -82,4 +82,5 @@ TermColor
 
 * Add "special" high quality video settings for intel and nvidia gpus after testing (Hardware needed)
 * Add ability to insert stream channel instead of defaulting to first sub stream
+* Reduce the number of locations to update when adding new actions, currently three locations in two separte files need to be changed
 * TBD
