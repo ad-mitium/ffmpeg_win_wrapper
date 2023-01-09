@@ -31,7 +31,7 @@ Note that for the last example, ffmpeg will be executed as:
 
     ffmpeg -i input.mkv -c:v copy -c:a copy 'My Video.mp4'
 
-And it will not use the default subttle transcoding options:
+And it will not use the default subtitle transcoding options:
 
     ffmpeg -i input.mkv -map 0:v -map 0:a -map 0:2? -c:v libx264 -preset fast -crf 23 -c:a copy -c:s mov_text -metadata:s:s:0 language=en 'My Video.mp4'
 
