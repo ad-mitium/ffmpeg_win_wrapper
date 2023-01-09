@@ -230,7 +230,6 @@ HW_TEST=args.ffmpeg_hardware
 
 FFMPEG_HW_OPTIONS=""
 
-test_path(output_path)
 hwtest()
 
 FFMPEG_OPTIONS_COPY= copy_files ['copy']
