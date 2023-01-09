@@ -8,6 +8,7 @@ from lib import version as ver
 from lib import colors
 from lib.ffmpeg_options import amd,nvidia,default_none,copy_files,special
 from lib.dest_folders import out_dir_dict,out_dir,report_folder,local_folder
+from lib.action_description import action_description as act_desc
 
 ##############################################################################
 #####                                                                    #####
@@ -32,7 +33,7 @@ extension='mp4'
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 3)
+version_number = (0, 0, 4)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -151,23 +152,10 @@ test_path(base_outdir)
 
 #########   Command line interaction for user supplied variables   #########
 # provide description and version info
-parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description='''
-Python script that wraps ffmpeg command to transcode a video file with a given file name into mp4 format. 
-
-  Usage: ffmeg_win.py [action] [-opt='options'] <input file> <destination folder> <output filename> [report filename]   
-  Examples: python3 ffmpeg_win.py transcode abc.mkv 'videos folder' abc report 
-            python3 ffmpeg_win.py subtrans abc.mkv 'videos folder' abc report
-            python3 ffmpeg_win.py transcode -opt '-map 0:v -map 0:a -map 0:2? -c:v hevc_amf -c:a copy -c:s mov_text -metadata:s:s:0 language=en' abc.mkv 'videos folder' abc report   ''', 
-epilog='''    Action commands include (use -opt to specify unique options):
-        subtrans        Transcode into h.264 format, defaults to 1st sub stream
-        subtrans265     Transcode into h.265 format, defaults to 1st sub stream
-        special_sub     Transcode into h.265 format, defaults to 1st sub stream, high quality video
-        copy            Straight copy into mp4 container
-        copysub265      Copy into mp4 container while transcoding to h.265 format, defaults to 1st sub stream
-        special_trans   Transcode into h.265 format,  high quality video 
-        trans265        Transcode into h.265 format 
-        transcode       Transcode into h.264 format 
- ''')
+parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description=act_desc['desc']
+, 
+epilog=act_desc['epi']
+ )
 parser.add_argument('action_command', help='''Enter action option such as "transcode" for transcode or "copy" for copying to mp4 container. See all actions below.''')
 parser.add_argument('input_file', help='''Enter input file name to encode/transcode''')
 parser.add_argument('dest_folder', help='''Enter ouput folder path surrounded by \' \' ''')
