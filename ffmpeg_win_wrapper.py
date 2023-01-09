@@ -35,7 +35,7 @@ stream=2
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 6)
+version_number = (0, 0, 7)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -54,7 +54,6 @@ def check_num(num): # Sanity test for input
     limit=10        # Don't dwell on failure forever
     for i in (range(limit, -1, -1)):
         if i > 0:
-            # num=input("Please enter a valid integer")
             try: 
                 int(num)
                 # print("Valid integer: ", num)
@@ -96,7 +95,6 @@ def opttest(F_OPTIONS,Message):
 
 def test_path(output_folder_path):
     if os.path.exists((output_folder_path)):
-    # if os.path.exists(os.path.dirname(output_folder_path)):
         # print(os.path.dirname(output_folder_path))
         # print(output_folder_path," exists")
         pass
@@ -223,7 +221,6 @@ stream=check_num(stream)
 
 print ('Subtitle stream is', end=" ")
 colors.print_red(stream)
-# stream=args.sub_stream
 
 # if not enabled_dict:
 #     colors.print_red("Dictionary disabled")   # For debugging
@@ -253,7 +250,6 @@ else:
     FFMPEG_OPTIONS= default_none['h264']
     FFMPEG_OPTIONS_HEVC= default_none['hevc']
 
-# FFMPEG_OPTIONS_SPECIAL="-map 0:v -map 0:a -map 0:2? -c:v copy -c:a copy -c:s mov_text -metadata:s:s:0 language=en"
 FFMPEG_OPTIONS_SPECIAL_SUB=special['special_sub']
 FFMPEG_OPTIONS_SPECIAL_TRANS=special['special_trans']
 
