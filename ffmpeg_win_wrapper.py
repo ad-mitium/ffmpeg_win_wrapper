@@ -116,19 +116,19 @@ def action_test():
     #########   Determine transcode action   #########
     global FFMPEG_OPTIONS
     if (action == 'subtrans'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(stream=stream)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(stream=stream,gpu_codec=GPU_type_264)
         Message="Subtitle option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'subtrans265'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(stream=stream)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(stream=stream,gpu_codec=GPU_type_265)
         Message="Subtitle HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'special_sub'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(stream=stream)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(stream=stream,gpu_codec=GPU_type_265)
         Message="Special subtitle transcode option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'special_trans'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(gpu_codec=GPU_type_265)
         Message="Special transcode option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'copy'): 
@@ -140,10 +140,11 @@ def action_test():
         Message="Copy subtitle HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'trans265'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_HEVC
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_HEVC.format(gpu_codec=GPU_type_265)
         Message="Transcode HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'transcode'): 
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS.format(gpu_codec=GPU_type_264)        
         Message="Transcode H.264 option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
             
@@ -235,16 +236,22 @@ hwtest()
 FFMPEG_OPTIONS_COPY= copy_files ['copy']
 FFMPEG_OPTIONS_COPY_SUB_HEVC= copy_files ['copy_sub_hevc']
 if enabled_GPU in 'amd':
+    GPU_type_264='h264_amf'
+    GPU_type_265='hevc_amf'
     FFMPEG_OPTIONS_SUB= amd['sub']
     FFMPEG_OPTIONS_SUB_HEVC= amd['sub_hevc']
     FFMPEG_OPTIONS= amd['h264']
     FFMPEG_OPTIONS_HEVC= amd['hevc']
 elif enabled_GPU in 'nvidia':
+    GPU_type_264='h264_nvenc'
+    GPU_type_265='hevc_nvenc'
     FFMPEG_OPTIONS_SUB= nvidia['sub']
     FFMPEG_OPTIONS_SUB_HEVC= nvidia['sub_hevc']
     FFMPEG_OPTIONS= nvidia['h264']
     FFMPEG_OPTIONS_HEVC= nvidia['hevc']
 else:
+    GPU_type_264='libx264'
+    GPU_type_265='libx265'
     FFMPEG_OPTIONS_SUB= default_none['sub']
     FFMPEG_OPTIONS_SUB_HEVC= default_none['sub_hevc']
     FFMPEG_OPTIONS= default_none['h264']
