@@ -35,7 +35,7 @@ stream=2
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 7)
+version_number = (0, 0, 8)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -100,7 +100,8 @@ def test_path(output_folder_path):
         pass
     else:
         # print(output_folder_path," does not exist")
-        Path(output_folder_path).mkdir( parents=True, exist_ok=True)
+        if enabled_copy:
+            Path(output_folder_path).mkdir( parents=True, exist_ok=True)
 
 def copy_to_remote():
     if enabled_copy:
