@@ -111,7 +111,7 @@ def copy_to_remote():
     print("", end =" ")
     colors.print_yellow_no_cr(output_filename_ext)
     print('{} copied to'.format('' if enabled_copy else ' would be'), end =" ")
-    colors.print_yellow(full_out_path)
+    colors.print_white(full_out_path)
 
 def action_test():
     #########   Determine transcode action   #########
