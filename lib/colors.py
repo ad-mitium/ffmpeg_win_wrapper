@@ -52,3 +52,9 @@ def print_yellow(text):
 
 def print_yellow_no_cr(text):
     cprint( text, 'yellow', attrs=['bold'], end ="")
+
+def print_orange(text):     # Appears to be orangish in the terminal, ymmv
+    cprint( text, 'yellow')
+
+def print_orange_no_cr(text):     # Appears to be orangish in the terminal, ymmv
+    cprint( text, 'yellow', end ="")
