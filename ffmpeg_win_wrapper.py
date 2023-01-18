@@ -70,8 +70,8 @@ def hwtest():
     elif (HW_TEST[0] == '-'):
         global FFMPEG_HW_OPTIONS
         FFMPEG_HW_OPTIONS=HW_TEST
-        colors.print_blue_no_cr ("Custom hardware options detected and the options are: \n   ")
-        colors.print_green(FFMPEG_HW_OPTIONS)
+        colors.print_green_no_cr ("Custom hardware options detected and the options are: \n   ")
+        colors.print_yellow(FFMPEG_HW_OPTIONS)
     else:
         test_type='custom ffmepg hardware options'
         colors.print_red_error(test_type)
@@ -80,13 +80,13 @@ def hwtest():
 
 def opttest(F_OPTIONS,Message):
     if OPT_TEST == None:
-        colors.print_blue_no_cr(Message)
+        colors.print_green_no_cr(Message)
         colors.print_yellow (F_OPTIONS)
     elif (OPT_TEST[0] == '-'):
         global FFMPEG_OPTIONS
         FFMPEG_OPTIONS=OPT_TEST
-        colors.print_blue_no_cr ("Custom options detected and the options are: \n   ")
-        colors.print_green(FFMPEG_OPTIONS)
+        colors.print_green_no_cr ("Custom options detected and the options are: \n   ")
+        colors.print_yellow(FFMPEG_OPTIONS)
     else:
         test_type='custom ffmpeg options'
         colors.print_red_error(test_type)
@@ -214,14 +214,16 @@ enabled_GPU=args.gpu.lower()
 enabled_local_copy=args.disable_local_dir
 enabled_transcode=args.tc_disable
 
-print ('GPU is', end=" ")
+colors.print_blue('Transcoding...')
+
+colors.print_green_no_cr ('GPU is')
 colors.print_red(args.gpu)
 
 stream=args.sub_stream
 
 stream=check_num(stream)
 
-print ('Subtitle stream is', end=" ")
+colors.print_green_no_cr ('Subtitle stream is')
 colors.print_red(stream)
 
 # if not enabled_dict:
@@ -292,10 +294,10 @@ colors.print_blue("Transcoding is complete.")
 colors.cprint ("Command executed was:\n    ", 'green', attrs=['bold'], end=' ')
 colors.print_yellow(command)
 
-print ('  Input filename is: ', end =" ")
+colors.print_white_no_cr ('  Input filename is: ')
 colors.print_yellow(input_filename)
 
-print('  New file is named: ', end=" ")
+colors.print_white_no_cr('  New file is named: ')
 colors.print_yellow(output_filename_ext)
 
 ########   Display transcode usage time   ########
