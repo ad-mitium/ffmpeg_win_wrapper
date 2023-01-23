@@ -62,10 +62,12 @@ Action commands include (use -opt to specify unique options):
     special_sub     Transcode into h.265 format, defaults to 1st sub stream, high quality video
     copy            Straight copy into mp4 container
     copysub265      Copy into mp4 container while transcoding to h.265 format, defaults to 1st sub stream
+    special_copy    Transcode into h.265 format, defaults to 1st sub stream, high quality video, keeps original sub stream format
     special_trans   Transcode into h.265 format, high quality video
     trans265        Transcode into h.265 format
     transcode       Transcode into h.264 format
-
+  *Note* special_copy defaults to .mkv (hard coded)
+  
 ## Pitfalls to be aware of
 
 * You need to download a Windows compiled version for FFMPEG from ffmpeg.org (I'm using the one linked to gyan.dev)
