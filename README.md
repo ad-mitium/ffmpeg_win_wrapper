@@ -1,6 +1,6 @@
 # FFMPEG for Windows Wrapper
 
-A wrapper for FFMPEG on Windows because I cannot stand the command line interface offered by FFMPEG. There is such a thing as being too complex when you need to use it repeatedly for the same task!
+A wrapper for FFMPEG on Windows because I cannot stand the command line interface offered by FFMPEG. There is such a thing as being too complex when you need to use it repeatedly for the same task!  DO, however, ignore the fact that I wrote nearly 500 lines of code to "avoid" this.
 
 Currently defaults to MP4 format for greater compatibility.
 
