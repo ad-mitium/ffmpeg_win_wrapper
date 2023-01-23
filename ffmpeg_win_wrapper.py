@@ -128,6 +128,12 @@ def action_test():
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(stream=stream,gpu_codec=GPU_type_265)
         Message="Special subtitle transcode option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
+    elif (action == 'special_copy'): 
+        global extension 
+        extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(stream=stream,gpu_codec=GPU_type_265)
+        Message="Special subtitle transcode option request detected and the options are: \n   "
+        opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'special_trans'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(gpu_codec=GPU_type_265)
         Message="Special transcode option request detected and the options are: \n   "
@@ -198,7 +204,7 @@ action=args.action_command.lower()
 input_filename=str(args.input_file)
 output_file=args.output_file
 output_path=args.dest_folder
-ext=args.ext
+ext=args.ext.lower()
 
 if not (args.report_file is None):
     report_file_name=args.report_file
@@ -261,6 +267,7 @@ else:
     FFMPEG_OPTIONS_HEVC= default_none['hevc']
 
 FFMPEG_OPTIONS_SPECIAL_SUB=special['special_sub']
+FFMPEG_OPTIONS_SPECIAL_SUB_COPY=special['special_copy']
 FFMPEG_OPTIONS_SPECIAL_TRANS=special['special_trans']
 
 # print(OPT_TEST)   # For debugging
