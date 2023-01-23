@@ -129,8 +129,8 @@ def action_test():
         Message="Special subtitle transcode option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'special_copy'): 
-        global extension 
-        extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
+        global ext 
+        ext = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(stream=stream,gpu_codec=GPU_type_265)
         Message="Special subtitle transcode option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
