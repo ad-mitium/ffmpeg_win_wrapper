@@ -19,7 +19,7 @@ default_none={
     'hevc':  '-c:v {gpu_codec} -preset fast -crf 23 -vtag hvc1 -c:a copy'
     }
 copy_files={      
-    'copy':  '-c:v copy -c:a copy' ,
+    'copy':  '-c:v copy -c:a copy -c:s copy' ,
     'copy_sub_hevc':  '-map 0:v -map 0:a -map 0:{stream}? -c:v copy -c:a copy -c:s mov_text -metadata:s:s:0 language=en'
     }
 special={       # Default ffmpeg presets were adding distracting amounts of pixelation during transcoding, changed to yuv420p from nv12
