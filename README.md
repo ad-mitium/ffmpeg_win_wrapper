@@ -58,14 +58,14 @@ The following optional flags are:
 Action commands include (use -opt to specify unique options):
 
     subtrans        Transcode into h.264 format, defaults to 1st sub stream
-    subtrans265     Transcode into h.265 format, defaults to 1st sub stream
-    special_sub     Transcode into h.265 format, defaults to 1st sub stream, high quality video
-    copy            Straight copy into mp4 container
-    copysub265      Copy into mp4 container while transcoding to h.265 format, defaults to 1st sub stream
-    special_copy    Transcode into h.265 format, defaults to 1st sub stream, high quality video, keeps original sub stream format
-    special_trans   Transcode into h.265 format, high quality video
-    trans265        Transcode into h.265 format
     transcode       Transcode into h.264 format
+    subtrans265     Transcode into h.265 format, defaults to 1st sub stream
+    trans265        Transcode into h.265 format
+    copy            Straight copy into mp4 container
+    copysub         Copy into mp4 container, copies subtitle stream, defaults to 1st sub stream
+    special_copy    Transcode into h.265 format with variable quality video, keeps original sub stream format, defaults to 1st sub stream
+    special_sub     Transcode into h.265 format with variable quality video, defaults to 1st sub stream
+    special_trans   Transcode into h.265 format with variable quality video
   *Note* special_copy defaults to .mkv (hard coded)
   
 ## Pitfalls to be aware of
@@ -75,7 +75,7 @@ Action commands include (use -opt to specify unique options):
 * If you receive an error message regarding a missing output_file, check to see if one of the other required parameters are missing, usually it is the action command or destination folder that is forgotten
 * If you are using linux, AMD amf drivers don't exist, use default (None) or modify ffmpeg_options.py to use VAAPI
   
-## Required to use this script *(Aside from Python 3)*
+### Required to use this script *(Aside from Python 3)*
 
 TermColor
 
@@ -84,6 +84,9 @@ TermColor
 ## To Do
 
 * Add "special" high quality video settings for intel and nvidia gpus after testing (Hardware needed)
+* Add flag to indicate either H.264 or HEVC format transcoding to eliminate multiple options for similar settings (code reduction)
+* Add flag to indicate special variable rate transcoding
+* Fix inelegant stream # handling
 * ~~Add ability to insert stream channel instead of defaulting to first sub stream~~
 * Reduce the number of locations to update when adding new actions, currently four locations in three separte files need to be changed
 * TBD

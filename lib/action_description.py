@@ -12,14 +12,14 @@ Python script that wraps ffmpeg command to transcode a video file with a given f
 
 "epi" : f"""    Action commands include (use -opt to specify unique options):
         subtrans        Transcode into h.264 format, defaults to 1st sub stream
-        subtrans265     Transcode into h.265 format, defaults to 1st sub stream
-        special_sub     Transcode into h.265 format, defaults to 1st sub stream, high quality video
-        copy            Straight copy into mp4 container
-        copysub265      Copy into mp4 container while transcoding to h.265 format, defaults to 1st sub stream
-        special_copy    Transcode into h.265 format, defaults to 1st sub stream, high quality video, keeps original sub stream format
-        special_trans   Transcode into h.265 format,  high quality video 
-        trans265        Transcode into h.265 format 
         transcode       Transcode into h.264 format 
+        subtrans265     Transcode into h.265 format, defaults to 1st sub stream
+        trans265        Transcode into h.265 format 
+        copy            Straight copy into mp4 container
+        copysub         Copy into mp4 container, copies sub stream, defaults to 1st sub stream
+        special_copy    Transcode into h.265 format with variable quality video, keeps original sub stream format, defaults to 1st sub stream
+        special_sub     Transcode into h.265 format with variable quality video, defaults to 1st sub stream
+        special_trans   Transcode into h.265 format with variable quality video 
       *Note* special_copy defaults to .mkv (hard coded)
  """ 
  }

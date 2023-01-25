@@ -118,7 +118,7 @@ def action_test():
     global FFMPEG_OPTIONS
     if (action == 'subtrans'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(stream=stream,gpu_codec=GPU_type_264)
-        Message="Subtitle option request detected and the options are: \n   "
+        Message="Subtitle H.264 option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'subtrans265'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(stream=stream,gpu_codec=GPU_type_265)
@@ -126,23 +126,25 @@ def action_test():
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'special_sub'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(stream=stream,gpu_codec=GPU_type_265)
-        Message="Special subtitle transcode option request detected and the options are: \n   "
+        Message="Special subtitle HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'special_copy'): 
         global ext 
         ext = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(stream=stream,gpu_codec=GPU_type_265)
-        Message="Special subtitle transcode option request detected and the options are: \n   "
+        Message="Special HEVC transcode and subtitle copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
+        colors.print_green_no_cr ('Extension is now set to')
+        colors.print_red(ext)
     elif (action == 'special_trans'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(gpu_codec=GPU_type_265)
-        Message="Special transcode option request detected and the options are: \n   "
+        Message="Special HEVC transcode option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'copy'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY
         Message="Copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
-    elif (action == 'copysub265'): 
+    elif (action == 'copysub'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB_HEVC.format(stream=stream)
         Message="Copy subtitle HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
@@ -225,6 +227,7 @@ colors.print_blue('Transcoding...')
 colors.print_green_no_cr ('GPU is')
 colors.print_red(args.gpu)
 
+# Inelegant stream handling
 stream=args.sub_stream
 
 stream=check_num(stream)
