@@ -246,7 +246,7 @@ FFMPEG_HW_OPTIONS=""
 hwtest()
 
 FFMPEG_OPTIONS_COPY= copy_files ['copy']
-FFMPEG_OPTIONS_COPY_SUB_HEVC= copy_files ['copy_sub_hevc']
+FFMPEG_OPTIONS_COPY_SUB_HEVC= copy_files ['copy_sub']
 if enabled_GPU in 'amd':
     GPU_type_264='h264_amf'
     GPU_type_265='hevc_amf'
