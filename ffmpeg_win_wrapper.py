@@ -196,7 +196,7 @@ parser.add_argument('-nc','--disable-copy-file', action='store_false',help='''En
 parser.add_argument('-opt','--ffmpeg-option', help='''Custom ffmpeg options, options must be wrapped in apostrophes (-opt 'options') 
 Options should start with a - (see examples below)''') 
 parser.add_argument('-r','--report-file', help='''Enter STDIO report file name (deprecated)''') 
-parser.add_argument('-rate','--encode-rate', default=encode_rate,help='''Encode rate, default is 24''') 
+parser.add_argument('-rate','--encode-rate', default=encode_rate,help='''Encode rate, default is 23''') 
 parser.add_argument('-s','--sub-stream', default=stream, help='''Select subtitle stream, defaults to 2''') 
 parser.add_argument('-v','--version', action='version', version='%(prog)s {}'.format(ver.ver_info(version_number)), help='show the version number and exit')
 args = parser.parse_args()

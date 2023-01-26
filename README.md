@@ -48,7 +48,7 @@ The following optional flags are:
     -nc, --disable-copy-file    Disables copying to folder(s)
     -opt, --ffmpeg-option       Override default options for custom options  
     -r, --report-file           Output files copied to file (Deprecated)
-    -rate, --encode-rate        Set encode rate, default is 24
+    -rate, --encode-rate        Set encode rate, default is 23
     -s, --sub-stream            Select subtitle stream, defaults to 2
     -v, --version               Outputs current version
     
