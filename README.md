@@ -48,6 +48,7 @@ The following optional flags are:
     -nc, --disable-copy-file    Disables copying to folder(s)
     -opt, --ffmpeg-option       Override default options for custom options  
     -r, --report-file           Output files copied to file (Deprecated)
+    -rate, --encode-rate        Set encode rate, default is 24
     -s, --sub-stream            Select subtitle stream, defaults to 2
     -v, --version               Outputs current version
     
@@ -85,8 +86,8 @@ TermColor
 
 * Add "special" high quality video settings for intel and nvidia gpus after testing (Hardware needed)
 * Add flag to indicate either H.264 or HEVC format transcoding to eliminate multiple options for similar settings (code reduction)
-* Add flag to indicate special variable rate transcoding
-* Fix inelegant stream # handling
+* Add flag to indicate special variable rate transcoding (Partially completed)
+* ~~Fix inelegant stream # handling~~
 * ~~Add ability to insert stream channel instead of defaulting to first sub stream~~
 * Reduce the number of locations to update when adding new actions, currently four locations in three separte files need to be changed
 * TBD

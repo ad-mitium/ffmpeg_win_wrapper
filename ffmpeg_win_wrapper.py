@@ -19,6 +19,7 @@ from lib.action_description import action_description as act_desc
 
 GPU='None'   # For any GPU, change to AMD for AMD GPUs, change to NVIDIA for NVIDIA GPUs
 
+encode_rate=23
 extension='mp4'
 
 stream=2
@@ -35,7 +36,7 @@ stream=2
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 8)
+version_number = (0, 0, 9)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -99,7 +100,7 @@ def test_path(output_folder_path):
         # print(output_folder_path," exists")
         pass
     else:
-        # print(output_folder_path," does not exist")
+        print(output_folder_path," does not exist")
         if enabled_copy:
             Path(output_folder_path).mkdir( parents=True, exist_ok=True)
 
@@ -117,27 +118,27 @@ def action_test():
     #########   Determine transcode action   #########
     global FFMPEG_OPTIONS
     if (action == 'subtrans'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(stream=stream,gpu_codec=GPU_type_264)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(stream=stream,rate=rate,gpu_codec=GPU_type_264)
         Message="Subtitle H.264 option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'subtrans265'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(stream=stream,gpu_codec=GPU_type_265)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(stream=stream,rate=rate,gpu_codec=GPU_type_265)
         Message="Subtitle HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'special_sub'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(stream=stream,gpu_codec=GPU_type_265)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(stream=stream,rate=rate,gpu_codec=GPU_type_265)
         Message="Special subtitle HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'special_copy'): 
         global ext 
         ext = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(stream=stream,gpu_codec=GPU_type_265)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(stream=stream,rate=rate,gpu_codec=GPU_type_265)
         Message="Special HEVC transcode and subtitle copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
         colors.print_green_no_cr ('Extension is now set to')
         colors.print_red(ext)
     elif (action == 'special_trans'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(gpu_codec=GPU_type_265)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(rate=rate,gpu_codec=GPU_type_265)
         Message="Special HEVC transcode option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'copy'): 
@@ -145,15 +146,15 @@ def action_test():
         Message="Copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'copysub'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB_HEVC.format(stream=stream)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB.format(stream=stream)
         Message="Copy subtitle HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'trans265'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_HEVC.format(gpu_codec=GPU_type_265)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_HEVC.format(rate=rate,gpu_codec=GPU_type_265)
         Message="Transcode HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'transcode'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS.format(gpu_codec=GPU_type_264)        
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS.format(rate=rate,gpu_codec=GPU_type_264)        
         Message="Transcode H.264 option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
             
@@ -175,9 +176,6 @@ home_dir=Path.home()    # No need to change this
 base_dir=joinpath(str(home_dir),report_folder)  # Location to place report file
 base_outdir=joinpath(str(home_dir),local_folder)  # Location to save output to before copying
 
-test_path(base_dir)
-test_path(base_outdir)
-
 #########   Command line interaction for user supplied variables   #########
 # provide description and version info
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description=act_desc['desc']
@@ -198,6 +196,7 @@ parser.add_argument('-nc','--disable-copy-file', action='store_false',help='''En
 parser.add_argument('-opt','--ffmpeg-option', help='''Custom ffmpeg options, options must be wrapped in apostrophes (-opt 'options') 
 Options should start with a - (see examples below)''') 
 parser.add_argument('-r','--report-file', help='''Enter STDIO report file name (deprecated)''') 
+parser.add_argument('-rate','--encode-rate', default=encode_rate,help='''Encode rate, default is 24''') 
 parser.add_argument('-s','--sub-stream', default=stream, help='''Select subtitle stream, defaults to 2''') 
 parser.add_argument('-v','--version', action='version', version='%(prog)s {}'.format(ver.ver_info(version_number)), help='show the version number and exit')
 args = parser.parse_args()
@@ -222,18 +221,24 @@ enabled_GPU=args.gpu.lower()
 enabled_local_copy=args.disable_local_dir
 enabled_transcode=args.tc_disable
 
+test_path(base_dir)
+test_path(base_outdir)
+
 colors.print_blue('Transcoding...')
 
 colors.print_green_no_cr ('GPU is')
 colors.print_red(args.gpu)
 
-# Inelegant stream handling
-stream=args.sub_stream
-
-stream=check_num(stream)
+# Stream and encode rate handling
+stream=check_num(args.sub_stream)
 
 colors.print_green_no_cr ('Subtitle stream is')
 colors.print_red(stream)
+
+rate=check_num(args.encode_rate)
+
+colors.print_green_no_cr ('Encode rate is')
+colors.print_red(rate)
 
 # if not enabled_dict:
 #     colors.print_red("Dictionary disabled")   # For debugging
@@ -246,7 +251,7 @@ FFMPEG_HW_OPTIONS=""
 hwtest()
 
 FFMPEG_OPTIONS_COPY= copy_files ['copy']
-FFMPEG_OPTIONS_COPY_SUB_HEVC= copy_files ['copy_sub']
+FFMPEG_OPTIONS_COPY_SUB= copy_files ['copy_sub']
 if enabled_GPU in 'amd':
     GPU_type_264='h264_amf'
     GPU_type_265='hevc_amf'
