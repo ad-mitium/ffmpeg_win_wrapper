@@ -213,13 +213,13 @@ test_path(base_outdir)
 colors.print_blue('Transcoding...')
 
 colors.print_green_no_cr ('GPU is')
-colors.print_red(args.gpu)
+colors.print_red_no_cr(args.gpu+'  ')
 
 # Stream and encode rate handling
 stream=check_num(args.sub_stream)
 
 colors.print_green_no_cr ('Subtitle stream is')
-colors.print_red(stream)
+colors.print_red_no_cr(stream+'  ')
 
 rate=check_num(args.encode_rate)
 
