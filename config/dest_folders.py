@@ -9,7 +9,7 @@ defaults={
     'GPU':'None',   # For any GPU, change to AMD for AMD GPUs, change to NVIDIA for NVIDIA GPUs
     'encode_rate':'23',     
     'extension':'mp4',
-    'stream':'2',
+    'stream':'2'
 }
 
 out_dir_dict={     # If addtional output directories are needed, add here
