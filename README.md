@@ -92,5 +92,5 @@ TermColor
 * Add flag to indicate special variable rate transcoding (Partially completed)
 * ~~Fix inelegant stream # handling~~
 * ~~Add ability to insert stream channel instead of defaulting to first sub stream~~
-* Reduce the number of locations to update when adding new actions, currently four locations in three separte files need to be changed
+* Reduce the number of locations to update when adding new actions, currently four locations in three separate files need to be changed
 * TBD
