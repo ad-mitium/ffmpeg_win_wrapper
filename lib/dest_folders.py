@@ -5,6 +5,12 @@ out_dir1='M:\Videos'    # Location of output directory to copy output file to
 keyname2='Storage  '    # Reference key name
 out_dir2='N:\Videos'    # Location of output directory to copy output file to
 
+defaults={
+    'GPU':'None',   # For any GPU, change to AMD for AMD GPUs, change to NVIDIA for NVIDIA GPUs
+    'encode_rate':'23',     
+    'extension':'mp4',
+    'stream':'2',
+}
 
 out_dir_dict={     # If addtional output directories are needed, add here
     keyname1:out_dir1,

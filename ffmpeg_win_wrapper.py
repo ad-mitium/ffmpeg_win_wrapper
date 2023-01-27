@@ -7,26 +7,11 @@ from time import strftime
 from lib import version as ver
 from lib import colors
 from lib.ffmpeg_options import amd,nvidia,default_none,copy_files,special
-from lib.dest_folders import out_dir_dict,out_dir,report_folder,local_folder
+from lib.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
 from lib.action_description import action_description as act_desc
 
-##############################################################################
-#####                                                                    #####
-#####               Configurable variables for this script               #####
-#####                                                                    #####
-##############################################################################
-
-
-GPU='None'   # For any GPU, change to AMD for AMD GPUs, change to NVIDIA for NVIDIA GPUs
-
-encode_rate=23
-extension='mp4'
-
-stream=2
 
 ##############################################################################
-#####                                                                    #####
-#####           End of configurable variables for this script            #####
 #####                                                                    #####
 #####          FFMPEG OPTIONS are located in ffmpeg_options.py           #####
 #####         Destination folders are located in dest_folder.py          #####
@@ -189,15 +174,15 @@ parser.add_argument('output_file', help='''Enter output file name without extens
 parser.add_argument('-d','--disable-dict', action='store_false',help='''Disable copy to remote folder using dictionary''') 
 parser.add_argument('-dlc','--disable-local_dir', action='store_false',help='''Disable local ouput directory, save in current folder''') 
 parser.add_argument('-dtc','--tc-disable', action='store_false',help='''Disable transcoding (For debugging)''') 
-parser.add_argument('-e','--ext', default=extension,help='''Choose extension to convert to, default is 'MP4' ''') 
-parser.add_argument('-g','--gpu', default=GPU,help='''Choose GPU manufacturer to use, default is 'None' ''') 
+parser.add_argument('-e','--ext', default=defaults['extension'],help='''Choose extension to convert to, default is 'MP4' ''') 
+parser.add_argument('-g','--gpu', default=defaults['GPU'],help='''Choose GPU manufacturer to use, default is 'None' ''') 
 parser.add_argument('-hw','--ffmpeg-hardware', help='''Custom ffmpeg hardware options, options must be wrapped in apostrophes (-hw 'options') ''')
 parser.add_argument('-nc','--disable-copy-file', action='store_false',help='''Enable copy to remote folder (Output folder path still required)''') 
 parser.add_argument('-opt','--ffmpeg-option', help='''Custom ffmpeg options, options must be wrapped in apostrophes (-opt 'options') 
 Options should start with a - (see examples below)''') 
 parser.add_argument('-r','--report-file', help='''Enter STDIO report file name (deprecated)''') 
-parser.add_argument('-rate','--encode-rate', default=encode_rate,help='''Encode rate, default is 23''') 
-parser.add_argument('-s','--sub-stream', default=stream, help='''Select subtitle stream, defaults to 2''') 
+parser.add_argument('-rate','--encode-rate', default=defaults['encode_rate'],help='''Encode rate, default is 23''') 
+parser.add_argument('-s','--sub-stream', default=defaults['stream'], help='''Select subtitle stream, defaults to 2''') 
 parser.add_argument('-v','--version', action='version', version='%(prog)s {}'.format(ver.ver_info(version_number)), help='show the version number and exit')
 args = parser.parse_args()
 
