@@ -21,7 +21,7 @@ from lib.action_description import action_description as act_desc
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 10)
+version_number = (0, 0, 11)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -102,6 +102,7 @@ def copy_to_remote():
 def action_test():
     #########   Determine transcode action   #########
     global FFMPEG_OPTIONS
+    colors.print_white_no_cr(action+":")
     if (action == 'subtrans'): 
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(stream=stream,rate=rate,gpu_codec=GPU_type_264)
         Message="Subtitle H.264 option request detected and the options are: \n   "
