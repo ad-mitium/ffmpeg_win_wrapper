@@ -10,7 +10,10 @@ I am not an expert on FFMPEG, so please don't ask for help on that front. And wh
 
 This script uses FFMPEG to transcode a video from one format to another, whether it be a straight copy from one video container to another (currently MP4), transcode from one format to another, transcode a video with subtitles to another format or transcode a video using customized options provided in the commandline. Once the video is transcoded, it will copy the new video to a pre-specified location(s).
 
-Some user configurable options exist in the script to tailor its behavior and destination locations.  Most are in the `lib` folder.
+User configurable options exist to tailor its behavior and destination locations.  All user configurable variables are located in the `config` folder.
+
+    dest_folders    contains all options for extension type, GPU type, subtitle stream, destination folders, etc.
+    ffmpeg_options  contains all options related to how to encode video files based on action commands
 
 At any point, using the -opt flag will override whatever the default transcode action that was provided.
 

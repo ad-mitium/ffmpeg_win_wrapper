@@ -6,8 +6,8 @@ from pathlib import Path
 from time import strftime
 from lib import version as ver
 from lib import colors
-from lib.ffmpeg_options import amd,nvidia,default_none,copy_files,special
-from lib.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
+from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special
+from config.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
 from lib.action_description import action_description as act_desc
 
 
@@ -21,7 +21,7 @@ from lib.action_description import action_description as act_desc
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 9)
+version_number = (0, 0, 10)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
