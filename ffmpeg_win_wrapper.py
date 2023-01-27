@@ -6,6 +6,7 @@ from pathlib import Path
 from time import strftime
 from lib import version as ver
 from lib import colors
+import textwrap 
 from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special
 from config.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
 from lib.action_description import action_description as act_desc
@@ -57,11 +58,11 @@ def hwtest():
         global FFMPEG_HW_OPTIONS
         FFMPEG_HW_OPTIONS=HW_TEST
         colors.print_green_no_cr ("Custom hardware options detected and the options are: \n   ")
-        colors.print_yellow(FFMPEG_HW_OPTIONS)
+        colors.print_yellow(textwrap.fill(text=FFMPEG_HW_OPTIONS, width=defaults['display_wrap_width'], subsequent_indent='        '))
     else:
         test_type='custom ffmepg hardware options'
         colors.print_red_error(test_type)
-        colors.print_yellow(HW_TEST)
+        colors.print_yellow(textwrap.fill(text=HW_TEST, width=defaults['display_wrap_width'], subsequent_indent='        '))
         exit_on_error()
 
 def opttest(F_OPTIONS,Message):
@@ -72,11 +73,11 @@ def opttest(F_OPTIONS,Message):
         global FFMPEG_OPTIONS
         FFMPEG_OPTIONS=OPT_TEST
         colors.print_green_no_cr ("Custom options detected and the options are: \n   ")
-        colors.print_yellow(FFMPEG_OPTIONS)
+        colors.print_yellow(textwrap.fill(text=FFMPEG_OPTIONS, width=defaults['display_wrap_width'], subsequent_indent='        '))
     else:
         test_type='custom ffmpeg options'
         colors.print_red_error(test_type)
-        colors.print_yellow(OPT_TEST)
+        colors.print_yellow(textwrap.fill(text=OPT_TEST, width=defaults['display_wrap_width'], subsequent_indent='        '))
         exit_on_error()
 
 def test_path(output_folder_path):
@@ -97,7 +98,7 @@ def copy_to_remote():
     print("", end =" ")
     colors.print_yellow_no_cr(output_filename_ext)
     print('{} copied to'.format('' if enabled_copy else ' would be'), end =" ")
-    colors.print_white(full_out_path)
+    colors.print_white(textwrap.fill(text=full_out_path, width=defaults['display_wrap_width'], subsequent_indent='          '))
 
 def action_test():
     #########   Determine transcode action   #########
@@ -293,13 +294,13 @@ colors.print_blue("Transcoding is complete.")
 
 # print ("Command to execute is:", command)
 colors.cprint ("Command executed was:\n    ", 'green', attrs=['bold'], end=' ')
-colors.print_yellow(command)
+colors.print_yellow(textwrap.fill(text=command, width=defaults['display_wrap_width'], subsequent_indent='        '))
 
 colors.print_white_no_cr ('  Input filename is: ')
-colors.print_yellow(input_filename)
+colors.print_yellow(textwrap.fill(text=input_filename, width=defaults['display_wrap_width'], subsequent_indent='      '))
 
 colors.print_white_no_cr('  New file is named: ')
-colors.print_yellow(output_filename_ext)
+colors.print_yellow(textwrap.fill(text=output_filename_ext, width=defaults['display_wrap_width'], subsequent_indent='      '))
 
 ########   Display transcode usage time   ########
 elapsed_time= int(curr_time) - int(start_time)
