@@ -86,9 +86,12 @@ def test_path(output_folder_path):
         # print(output_folder_path," exists")
         pass
     else:
-        print(output_folder_path," does not exist")
+        colors.print_red("ERROR: "+output_folder_path+" does not exist")
         if enabled_copy:
+            colors.print_orange("Creating "+output_folder_path)
             Path(output_folder_path).mkdir( parents=True, exist_ok=True)
+        else:
+            colors.print_orange("If copying were enabled, "+output_folder_path+" would be created.")
 
 def copy_to_remote():
     if enabled_copy:
