@@ -25,18 +25,18 @@ At any point, using the -opt flag will override whatever the default transcode a
 
 Executing
 
-    python3 -g NVidia subtrans input.mkv 'folder path' 'My Video' 
-    python3 -hw '-hwaccel d3d11va -hwaccel_device 1 ' transcode input.mkv 'folder' 'My Video' 
-    python3 copysub265 input.mkv 'folder path' 'My Video' 
-    python3 subtrans -opt '-c:v copy -c:a copy' input.mkv 'folder path' 'My Video' 
+    python3 -g NVidia subtrans input.mkv folder_path "My Video" 
+    python3 -hw '-hwaccel d3d11va -hwaccel_device 1 ' transcode input.mkv folder "My Video" 
+    python3 copysub265 input.mkv "folder path" "My Video" 
+    python3 subtrans -opt '-c:v copy -c:a copy' input.mkv "folder path" "My Video" 
 
 Note that for the last example, ffmpeg will be executed as:
 
-    ffmpeg -i input.mkv -c:v copy -c:a copy 'My Video.mp4'
+    ffmpeg -i input.mkv -c:v copy -c:a copy "folder path" "My Video.mp4"
 
 And it will not use the default subtitle transcoding options:
 
-    ffmpeg -i input.mkv -map 0:v -map 0:a -map 0:2? -c:v libx264 -preset fast -crf 23 -c:a copy -c:s mov_text -metadata:s:s:0 language=en 'My Video.mp4'
+    ffmpeg -i input.mkv -map 0:v -map 0:a -map 0:2? -c:v libx264 -preset fast -crf 23 -c:a copy -c:s mov_text -metadata:s:s:0 language=en "folder path" "My Video.mp4"
 
 ### **Using flags:**
 
@@ -78,6 +78,7 @@ Action commands include (use -opt to specify unique options):
 * At this time, the **script will overwrite** any file with the same name at the output location.  (It is this way by design)
 * If you receive an error message regarding a missing output_file, check to see if one of the other required parameters are missing, usually it is the action command or destination folder that is forgotten
 * If you are using linux, AMD amf drivers don't exist, use default (None) or modify ffmpeg_options.py to use VAAPI
+* When using the command prompt, use double quotes (") to surround text with spaces (or use PowerShell as Microsoft want you to)
   
 ### Required to use this script *(Aside from Python 3)*
 
