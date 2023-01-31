@@ -58,26 +58,26 @@ def hwtest():
         global FFMPEG_HW_OPTIONS
         FFMPEG_HW_OPTIONS=HW_TEST
         colors.print_green_no_cr ("Custom hardware options detected and the options are: \n   ")
-        colors.print_yellow(textwrap.fill(text=FFMPEG_HW_OPTIONS, width=defaults['display_wrap_width'], subsequent_indent='        '))
+        colors.print_yellow(textwrap.fill(text=FFMPEG_HW_OPTIONS, width=defaults['option_wrap_width'], subsequent_indent='        '))
     else:
         test_type='custom ffmepg hardware options'
         colors.print_red_error(test_type)
-        colors.print_yellow(textwrap.fill(text=HW_TEST, width=defaults['display_wrap_width'], subsequent_indent='        '))
+        colors.print_yellow(textwrap.fill(text=HW_TEST, width=defaults['option_wrap_width'], subsequent_indent='        '))
         exit_on_error()
 
 def opttest(F_OPTIONS,Message):
     if OPT_TEST == None:
         colors.print_green_no_cr(Message)
-        colors.print_yellow (textwrap.fill(text=F_OPTIONS, width=defaults['display_wrap_width']-20, subsequent_indent='        '))
+        colors.print_yellow (textwrap.fill(text=F_OPTIONS, width=defaults['option_wrap_width'], subsequent_indent='        '))
     elif (OPT_TEST[0] == '-'):
         global FFMPEG_OPTIONS
         FFMPEG_OPTIONS=OPT_TEST
         colors.print_green_no_cr ("Custom options detected and the options are: \n   ")
-        colors.print_yellow(textwrap.fill(text=FFMPEG_OPTIONS, width=defaults['display_wrap_width']-20, subsequent_indent='        '))
+        colors.print_yellow(textwrap.fill(text=FFMPEG_OPTIONS, width=defaults['option_wrap_width'], subsequent_indent='        '))
     else:
         test_type='custom ffmpeg options'
         colors.print_red_error(test_type)
-        colors.print_yellow(textwrap.fill(text=OPT_TEST, width=defaults['display_wrap_width']-20, subsequent_indent='        '))
+        colors.print_yellow(textwrap.fill(text=OPT_TEST, width=defaults['option_wrap_width'], subsequent_indent='        '))
         exit_on_error()
 
 def test_path(output_folder_path):

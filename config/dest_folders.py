@@ -10,6 +10,7 @@ defaults={
     'encode_rate':'23',     
     'extension':'mp4',
     'stream':'2',
+    'option_wrap_width':100,
     'display_wrap_width':120,
     'filename_wrap_width':80,
     'foldername_wrap_width':80
