@@ -22,7 +22,7 @@ from lib.action_description import action_description as act_desc
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 11)
+version_number = (0, 0, 12)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -144,7 +144,7 @@ def action_test():
         Message="Transcode HEVC option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
     elif (action == 'transcode'): 
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS.format(rate=rate,gpu_codec=GPU_type_264)        
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_TRANS.format(rate=rate,gpu_codec=GPU_type_264)        
         Message="Transcode H.264 option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
             
@@ -247,21 +247,21 @@ if enabled_GPU in 'amd':
     GPU_type_265='hevc_amf'
     FFMPEG_OPTIONS_SUB= amd['sub']
     FFMPEG_OPTIONS_SUB_HEVC= amd['sub_hevc']
-    FFMPEG_OPTIONS= amd['h264']
+    FFMPEG_OPTIONS_TRANS= amd['h264']
     FFMPEG_OPTIONS_HEVC= amd['hevc']
 elif enabled_GPU in 'nvidia':
     GPU_type_264='h264_nvenc'
     GPU_type_265='hevc_nvenc'
     FFMPEG_OPTIONS_SUB= nvidia['sub']
     FFMPEG_OPTIONS_SUB_HEVC= nvidia['sub_hevc']
-    FFMPEG_OPTIONS= nvidia['h264']
+    FFMPEG_OPTIONS_TRANS= nvidia['h264']
     FFMPEG_OPTIONS_HEVC= nvidia['hevc']
 else:
     GPU_type_264='libx264'
     GPU_type_265='libx265'
     FFMPEG_OPTIONS_SUB= default_none['sub']
     FFMPEG_OPTIONS_SUB_HEVC= default_none['sub_hevc']
-    FFMPEG_OPTIONS= default_none['h264']
+    FFMPEG_OPTIONS_TRANS= default_none['h264']
     FFMPEG_OPTIONS_HEVC= default_none['hevc']
 
 FFMPEG_OPTIONS_SPECIAL_SUB=special['special_sub']
