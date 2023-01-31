@@ -86,12 +86,14 @@ def test_path(output_folder_path):
         # print(output_folder_path," exists")
         pass
     else:
-        colors.print_red(textwrap.fill(text="ERROR: "+output_folder_path+" does not exist", width=defaults['display_wrap_width'], subsequent_indent='          '))
+        colors.print_red(textwrap.fill(text="ERROR: "+output_folder_path+" does not exist", 
+            width=defaults['display_wrap_width'], subsequent_indent='          '))
         if enabled_copy:
             colors.print_orange("Creating "+output_folder_path)
             Path(output_folder_path).mkdir( parents=True, exist_ok=True)
         else:
-            colors.print_orange(textwrap.fill(text="If copying were enabled, '"+output_folder_path+"' would be created.", width=defaults['display_wrap_width'], subsequent_indent='          '))
+            colors.print_orange(textwrap.fill(text="If copying were enabled, '"+output_folder_path+"' would be created.", 
+                width=defaults['display_wrap_width'], subsequent_indent='          '))
 
 def copy_to_remote():
     if enabled_copy:
@@ -105,7 +107,7 @@ def copy_to_remote():
     print('' if len(output_filename_ext)<defaults['filename_wrap_width'] else '\n           ', end="") # new line becuase the filename was too long
     colors.print_white(textwrap.fill(text=full_out_path, width=defaults['foldername_wrap_width'], subsequent_indent='          ') 
         if len(output_filename_ext)<defaults['filename_wrap_width'] 
-        else textwrap.fill(text=full_out_path, width=defaults['foldername_wrap_width']+20, subsequent_indent='               '))
+        else textwrap.fill(text=full_out_path, width=defaults['display_wrap_width'], subsequent_indent='               '))
 
 def action_test():
     #########   Determine transcode action   #########
