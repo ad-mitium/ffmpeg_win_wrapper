@@ -86,12 +86,12 @@ def test_path(output_folder_path):
         # print(output_folder_path," exists")
         pass
     else:
-        colors.print_red("ERROR: "+output_folder_path+" does not exist")
+        colors.print_red(textwrap.fill(text="ERROR: "+output_folder_path+" does not exist", width=defaults['display_wrap_width'], subsequent_indent='          '))
         if enabled_copy:
             colors.print_orange("Creating "+output_folder_path)
             Path(output_folder_path).mkdir( parents=True, exist_ok=True)
         else:
-            colors.print_orange("If copying were enabled, "+output_folder_path+" would be created.")
+            colors.print_orange(textwrap.fill(text="If copying were enabled, '"+output_folder_path+"' would be created.", width=defaults['display_wrap_width'], subsequent_indent='          '))
 
 def copy_to_remote():
     if enabled_copy:
@@ -99,9 +99,13 @@ def copy_to_remote():
         shutil.copy(output_filename_ext, full_out_path)
     colors.print_cyan_no_cr(out_dir_name)
     print("", end =" ")
-    colors.print_yellow_no_cr(output_filename_ext)
+    colors.print_yellow_no_cr(output_filename_ext if len(output_filename_ext)<defaults['filename_wrap_width'] 
+        else textwrap.fill(text=output_filename_ext, width=defaults['filename_wrap_width'], subsequent_indent='               '))
     print('{} copied to'.format('' if enabled_copy else ' would be'), end =" ")
-    colors.print_white(textwrap.fill(text=full_out_path, width=defaults['display_wrap_width'], subsequent_indent='          '))
+    print('' if len(output_filename_ext)<defaults['filename_wrap_width'] else '\n           ', end="") # new line becuase the filename was too long
+    colors.print_white(textwrap.fill(text=full_out_path, width=defaults['foldername_wrap_width'], subsequent_indent='          ') 
+        if len(output_filename_ext)<defaults['filename_wrap_width'] 
+        else textwrap.fill(text=full_out_path, width=defaults['foldername_wrap_width']+20, subsequent_indent='               '))
 
 def action_test():
     #########   Determine transcode action   #########
