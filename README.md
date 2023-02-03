@@ -40,7 +40,7 @@ And it will not use the default subtitle transcoding options:
 
 An interesting hack could be done using the ```-hw``` flag to add extra input videos, use ```\`"``` to escape the apostrophe in powershell:
 
-    python3 ffmpeg_win_wrapper -hw "-i \`"G:\Another folder\input1.mkv\`" " input2.mkv "folder path" "my video" -e mkv -opt "-map 0:v -map 1:a -c:v copy -c:a copy"
+    python3 ffmpeg_win_wrapper transcode -hw "-i \`"G:\Another folder\input1.mkv\`" " input2.mkv "folder path" "my video" -e mkv -opt "-map 0:v -map 1:a -c:v copy -c:a copy"
 
 Again, while this will work, I cannot provide additional assistance on making the *actual* encoding work.
 
