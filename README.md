@@ -25,10 +25,10 @@ At any point, using the -opt flag will override whatever the default transcode a
 
 Executing
 
-    python3 -g NVidia subtrans input.mkv folder_path "My Video" 
-    python3 -hw '-hwaccel d3d11va -hwaccel_device 1 ' transcode input.mkv folder "My Video" 
-    python3 copysub265 input.mkv "folder path" "My Video" 
-    python3 subtrans -opt '-c:v copy -c:a copy' input.mkv "folder path" "My Video" 
+    python3 ffmpeg_win_wrapper -g NVidia subtrans input.mkv folder_path "My Video" 
+    python3 ffmpeg_win_wrapper -hw '-hwaccel d3d11va -hwaccel_device 1 ' transcode input.mkv folder "My Video" 
+    python3 ffmpeg_win_wrapper copysub265 input.mkv "folder path" "My Video" 
+    python3 ffmpeg_win_wrapper subtrans -opt '-c:v copy -c:a copy' input.mkv "folder path" "My Video" 
 
 Note that for the last example, ffmpeg will be executed as:
 
@@ -37,6 +37,12 @@ Note that for the last example, ffmpeg will be executed as:
 And it will not use the default subtitle transcoding options:
 
     ffmpeg -i input.mkv -map 0:v -map 0:a -map 0:2? -c:v libx264 -preset fast -crf 23 -c:a copy -c:s mov_text -metadata:s:s:0 language=en "folder path" "My Video.mp4"
+
+An interesting hack could be done using the ```-hw``` flag to add extra input videos, use ```\`"``` to escape the apostrophe in powershell:
+
+    python3 ffmpeg_win_wrapper -hw "-i \`"G:\Another folder\input1.mkv\`" " input2.mkv "folder path" "my video" -e mkv -opt "-map 0:v -map 1:a -c:v copy -c:a copy"
+
+Again, while this will work, I cannot provied additional assistance on making the *actual* encoding work.
 
 ### **Using flags:**
 
