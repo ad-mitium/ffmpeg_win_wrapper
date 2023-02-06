@@ -23,11 +23,17 @@ copy_files={
     'copy_sub':  '-map 0:v -map 0:a -map 0:{stream}? -c:v copy -c:a copy -c:s mov_text -metadata:s:s:0 language=en'
     }
 special={       # Default ffmpeg presets were adding distracting amounts of pixelation during transcoding, changed to yuv420p from nv12
-    'special_sub': '-map 0:v -map 0:a -map 0:{stream}? -c:v {gpu_codec} -rc vbr_latency -qmin {rate} -pix_fmt yuv420p -b:v 0K -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en',
-    'special_copy': '-map 0:v -map 0:a -map 0:{stream}? -c:v {gpu_codec} -rc vbr_latency -qmin {rate} -pix_fmt yuv420p -b:v 0K -vtag hvc1 -c:a copy -c:s copy',
-    'special_trans': '-map 0:v -map 0:a -c:v {gpu_codec} -rc vbr_latency -qmin {rate} -pix_fmt yuv420p -b:v 0K -vtag hvc1 -c:a copy '
+    'special_sub': '-map 0:v -map 0:a -map 0:{stream}? -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt yuv420p -b:v 0K -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en',
+    'special_copy': '-map 0:v -map 0:a -map 0:{stream}? -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt yuv420p -b:v 0K -vtag hvc1 -c:a copy -c:s copy',
+    'special_trans': '-map 0:v -map 0:a -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt yuv420p -b:v 0K -vtag hvc1 -c:a copy '
 }
 
+gpu_special_options={
+    'amd':'-rc vbr_latency',
+    'nvidia':'-rc vbr_hq',
+    'none':''
+
+}
 
     # 'special_sub': '-map 0:v -map 0:a -map 0:{stream}? -c:v {gpu_codec} -rc vbr_latency -qmin 26 -pix_fmt yuv420p -b:v 0K -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en',
 

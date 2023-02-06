@@ -6,6 +6,8 @@ Currently defaults to MP4 format for greater compatibility.
 
 I am not an expert on FFMPEG, so please don't ask for help on that front. And while I created this for Windows, it *can* be used on linux if you change the folder location variables in dest_folder.py
 
+It should be obvious, but it has to be put in writing, that you use this at your own risk.
+
 ## Usage
 
 This script uses FFMPEG to transcode a video from one format to another, whether it be a straight copy from one video container to another (currently MP4), transcode from one format to another, transcode a video with subtitles to another format or transcode a video using customized options provided in the commandline. Once the video is transcoded, it will copy the new video to a pre-specified location(s).
@@ -94,7 +96,7 @@ TermColor
 
 ## To Do
 
-* Add "special" high quality video settings for intel and nvidia gpus after testing (Hardware needed)
+* Add "special" high quality video settings for intel and nvidia gpus after testing (Hardware needed) (Partially completed, alpha testing in Ver. 0.0.13 {testing on this code base, Pascal is really FAST!})
 * Add flag to indicate either H.264 or HEVC format transcoding to eliminate multiple options for similar settings (code reduction)
 * Add flag to indicate special variable rate transcoding (Partially completed)
 * ~~Fix inelegant stream # handling~~
