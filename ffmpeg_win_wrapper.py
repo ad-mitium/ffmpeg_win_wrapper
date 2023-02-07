@@ -165,7 +165,6 @@ def action_test():
 ##############################################################################
 
 home_dir=Path.home()    # No need to change this
-base_dir=joinpath(str(home_dir),report_folder)  # Location to place report file
 base_outdir=joinpath(str(home_dir),local_folder)  # Location to save output to before copying
 
 #########   Command line interaction for user supplied variables   #########
@@ -200,12 +199,14 @@ output_path=args.dest_folder
 ext=args.ext.lower()
 
 if not (args.report_file is None):
+    base_dir=joinpath(str(home_dir),report_folder)  # Location to place report file
     report_file_name=args.report_file
     stdout_file_name=report_file_name+'.out'
     stdout_file=os.path.join(base_dir , stdout_file_name)
     stderr_file_name=report_file_name+'.err'
     stderr_file=os.path.join(base_dir , stderr_file_name)
     report_file_names=[stderr_file,stdout_file]
+    test_path(base_dir)
 
 enabled_copy=args.disable_copy_file
 enabled_dict=args.disable_dict
@@ -213,7 +214,6 @@ enabled_GPU=args.gpu.lower()
 enabled_local_copy=args.disable_local_dir
 enabled_transcode=args.tc_disable
 
-test_path(base_dir)
 test_path(base_outdir)
 
 colors.print_blue('Transcoding...')
