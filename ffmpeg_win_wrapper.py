@@ -96,6 +96,8 @@ def test_path(output_folder_path):
                 width=defaults['display_wrap_width'], subsequent_indent='          '))
 
 def copy_to_remote():
+    colors.print_cyan_no_cr(out_dir_name)
+    print("", end =" ")
     if enabled_copy:
         test_path(full_out_path)
         shutil.copy(output_filename_ext, full_out_path)
