@@ -101,8 +101,8 @@ def copy_to_remote():
     if enabled_copy:
         test_path(full_out_path)
         shutil.copy(output_filename_ext, full_out_path)
-    colors.print_cyan_no_cr(out_dir_name)
-    print("", end =" ")
+    # colors.print_cyan_no_cr(out_dir_name)
+    # print("", end =" ")
     colors.print_yellow_no_cr(output_filename_ext if len(output_filename_ext)<defaults['filename_wrap_width'] 
         else textwrap.fill(text=output_filename_ext, width=defaults['filename_wrap_width'], subsequent_indent='               '))
     print('{} copied to'.format('' if enabled_copy else ' would be'), end =" ")
