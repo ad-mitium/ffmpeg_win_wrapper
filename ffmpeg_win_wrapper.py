@@ -118,17 +118,17 @@ def action_test():
     if (action == 'special_copy'): 
         global ext 
         ext = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options='')
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
         Message="Special HEVC transcode and subtitle copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
         colors.print_green_no_cr ('Extension is now set to')
         colors.print_red(ext)          
     else:
         if (action == 'special_sub'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_options='')
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'special_trans'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(rate=rate,gpu_codec=GPU_type_265,gpu_options='')
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special HEVC transcode option request detected and the options are: \n   "
         elif (action == 'copy'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY
