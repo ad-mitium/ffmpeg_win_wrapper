@@ -30,7 +30,8 @@ special={       # Default ffmpeg presets were adding distracting amounts of pixe
 
 gpu_special_options={
     'amd':'-rc vbr_latency',
-    'nvidia':'-rc vbr_hq',
+    'nvidia':'-rc vbr',
+    # 'nvidia':'-rc vbr_hq',
     'none':''
 
 }
