@@ -22,7 +22,7 @@ from lib.action_description import action_description as act_desc
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 13)
+version_number = (0, 0, 14)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
