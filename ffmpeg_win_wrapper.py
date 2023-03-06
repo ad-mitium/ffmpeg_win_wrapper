@@ -263,6 +263,7 @@ elif enabled_GPU in 'nvidia':
 else:
     GPU_type_264='libx264'
     GPU_type_265='libx265'
+    gpu_options=gpu_special_options['none']
     FFMPEG_OPTIONS_SUB= default_none['sub']
     FFMPEG_OPTIONS_SUB_HEVC= default_none['sub_hevc']
     FFMPEG_OPTIONS_TRANS= default_none['h264']
