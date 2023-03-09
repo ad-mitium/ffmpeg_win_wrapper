@@ -50,6 +50,7 @@ Again, while this will work, I cannot provide additional assistance on making th
 
 The following optional flags are:
 
+    -a, --audio-stream          Select audio stream, defaults to first stream
     -d, --disable-dict          Disable dictionary for mutliple copy locations
     -dlc, --disable-local-dir   Disable local output directory, save in current folder
     -dtc, --tc_disable          Disables transcoding (For debugging)

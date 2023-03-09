@@ -118,14 +118,16 @@ def action_test():
     if (action == 'special_copy'): 
         global ext 
         ext = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
+        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(
+            astream=audio_stream,stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
         Message="Special HEVC transcode and subtitle copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
         colors.print_green_no_cr ('Extension is now set to')
         colors.print_red(ext)          
     else:
         if (action == 'special_sub'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(
+                stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'special_trans'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
@@ -134,13 +136,13 @@ def action_test():
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY
             Message="Copy option request detected and the options are: \n   "
         elif (action == 'copysub'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB.format(stream=stream)
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB.format(astream=audio_stream,stream=stream)
             Message="Copy subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'subtrans'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(stream=stream,rate=rate,gpu_codec=GPU_type_264)
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(astream=audio_stream,stream=stream,rate=rate,gpu_codec=GPU_type_264)
             Message="Subtitle H.264 option request detected and the options are: \n   "
         elif (action == 'subtrans265'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(stream=stream,rate=rate,gpu_codec=GPU_type_265)
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(astream=audio_stream,stream=stream,rate=rate,gpu_codec=GPU_type_265)
             Message="Subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'trans265'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_HEVC.format(rate=rate,gpu_codec=GPU_type_265)
@@ -177,6 +179,7 @@ parser.add_argument('action_command', help='''Enter action option such as "trans
 parser.add_argument('input_file', help='''Enter input file name to encode/transcode''')
 parser.add_argument('dest_folder', help='''Enter ouput folder path surrounded by \' \' ''')
 parser.add_argument('output_file', help='''Enter output file name without extension''')
+parser.add_argument('-a','--audio-stream', default=defaults['audio_stream'], help='''Select audio stream, defaults to first stream''') 
 parser.add_argument('-d','--disable-dict', action='store_false',help='''Disable copy to remote folder using dictionary''') 
 parser.add_argument('-dlc','--disable-local_dir', action='store_false',help='''Disable local ouput directory, save in current folder''') 
 parser.add_argument('-dtc','--tc-disable', action='store_false',help='''Disable transcoding (For debugging)''') 
@@ -223,6 +226,9 @@ colors.print_red_no_cr(args.gpu+'  ')
 
 # Stream and encode rate handling
 stream=check_num(args.sub_stream)
+
+# Stream and encode rate handling
+audio_stream=check_num(args.audio_stream)
 
 colors.print_green_no_cr ('Subtitle stream is')
 colors.print_red_no_cr(stream+'  ')
