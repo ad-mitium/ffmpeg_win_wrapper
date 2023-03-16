@@ -14,10 +14,10 @@ This script uses FFMPEG to transcode a video from one format to another, whether
 
 User configurable options exist to tailor its behavior and destination locations.  All user configurable variables are located in the `config` folder.
 
-    dest_folders    contains all options for extension type, GPU type, subtitle stream, destination folders, etc.
+    dest_folders    contains all options for extension type, GPU type, audio and subtitle streams, destination folders, etc.
     ffmpeg_options  contains all options related to how to encode video files based on action commands
 
-At any point, using the -opt flag will override whatever the default transcode action that was provided.
+At any point, using the `-opt` flag will override whatever the default transcode action that was provided.
 
 ### **Code execution as follows:**
 
@@ -40,7 +40,7 @@ And it will not use the default subtitle transcoding options:
 
     ffmpeg -i input.mkv -map 0:v -map 0:a -map 0:2? -c:v libx264 -preset fast -crf 23 -c:a copy -c:s mov_text -metadata:s:s:0 language=en "folder path" "My Video.mp4"
 
-An interesting hack could be done using the ```-hw``` flag to add extra input videos, use ```\`"``` to escape the apostrophe in powershell:
+An interesting hack could be done using the `-hw` flag to add extra input videos, use ```\`"``` to escape the apostrophe in powershell:
 
     python3 ffmpeg_win_wrapper transcode -hw "-i \`"G:\Another folder\input1.mkv\`" " input2.mkv "folder path" "my video" -e mkv -opt "-map 0:v -map 1:a -c:v copy -c:a copy"
 
@@ -50,21 +50,22 @@ Again, while this will work, I cannot provide additional assistance on making th
 
 The following optional flags are:
 
-    -as, --audio-stream          Select audio stream, defaults to first stream
-    -ddt, --disable-dict          Disable dictionary for mutliple copy locations
+    -ddt, --disable-dict        Disable dictionary for mutliple copy locations
     -dlc, --disable-local-dir   Disable local output directory, save in current folder
     -dtc, --tc_disable          Disables transcoding (For debugging)
+    -nc, --disable-copy-file    Disables copying to folder(s)
+    -r, --report-file           Output files copied to file (Deprecated)
+
     -e, --ext                   Choose extension to convert to, default is MP4
     -g, --gpu                   Choose GPU hardware to convert with, default is None
     -hw, --ffmpeg-hardware      Optional hardware related options before input file
-    -nc, --disable-copy-file    Disables copying to folder(s)
-    -opt, --ffmpeg-option       Override default options for custom options  
-    -r, --report-file           Output files copied to file (Deprecated)
     -rate, --encode-rate        Set encode rate, default is 23
-    -ss, --sub-stream            Select subtitle stream, defaults to 2
-    -v, --version               Outputs current version
+    -opt, --ffmpeg-option       Override default options for custom options provided by user 
+    -as, --audio-stream         Select audio stream, defaults to first stream (0)
+    -ss, --sub-stream           Select subtitle stream, defaults to second stream (2)
     
     -h, --help                  Ouputs helpful(maybe?) usage information for this script
+    -v, --version               Outputs current version
 
 ### **Available Actions**
 
@@ -79,12 +80,13 @@ Action commands include (use -opt to specify unique options):
     special_copy    Transcode into h.265 format with variable quality video, keeps original sub stream format, defaults to 1st sub stream
     special_sub     Transcode into h.265 format with variable quality video, defaults to 1st sub stream
     special_trans   Transcode into h.265 format with variable quality video
-  *Note* special_copy defaults to .mkv (hard coded)
+
+*Note* special_copy defaults to .mkv (hard coded)
   
 ## Pitfalls to be aware of
 
 * You need to download a Windows compiled version for FFMPEG from ffmpeg.org (I'm using the one linked to gyan.dev)
-* At this time, the **script will overwrite** any file with the same name at the output location.  (It is this way by design)
+* At this time, the **script will overwrite** any file with the *same* name at the output location.  (It is this way by design)
 * If you receive an error message regarding a missing output_file, check to see if one of the other required parameters are missing, usually it is the action command or destination folder that is forgotten
 * If you are using linux, AMD amf drivers don't exist, use default (None) or modify ffmpeg_options.py to use VAAPI
 * When using the command prompt, use double quotes (") to surround text with spaces (or use PowerShell as Microsoft want you to)
