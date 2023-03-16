@@ -50,8 +50,8 @@ Again, while this will work, I cannot provide additional assistance on making th
 
 The following optional flags are:
 
-    -a, --audio-stream          Select audio stream, defaults to first stream
-    -d, --disable-dict          Disable dictionary for mutliple copy locations
+    -as, --audio-stream          Select audio stream, defaults to first stream
+    -ddt, --disable-dict          Disable dictionary for mutliple copy locations
     -dlc, --disable-local-dir   Disable local output directory, save in current folder
     -dtc, --tc_disable          Disables transcoding (For debugging)
     -e, --ext                   Choose extension to convert to, default is MP4
@@ -61,7 +61,7 @@ The following optional flags are:
     -opt, --ffmpeg-option       Override default options for custom options  
     -r, --report-file           Output files copied to file (Deprecated)
     -rate, --encode-rate        Set encode rate, default is 23
-    -s, --sub-stream            Select subtitle stream, defaults to 2
+    -ss, --sub-stream            Select subtitle stream, defaults to 2
     -v, --version               Outputs current version
     
     -h, --help                  Ouputs helpful(maybe?) usage information for this script
