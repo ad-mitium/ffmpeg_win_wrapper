@@ -306,7 +306,7 @@ action_test()   # Check what action user wanted
 #colors.print_yellow(output_path)
 #print ('Output filename is', end=" ")
 if enabled_local_copy:
-    output_filename_ext=os.path.join(base_outdir,output_file+'.'+ension)
+    output_filename_ext=os.path.join(base_outdir,output_file+'.'+extension)
     #colors.print_red(output_filename_ext)
 else:
     output_filename_ext=output_file+'.'+extension
