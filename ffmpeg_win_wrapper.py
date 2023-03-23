@@ -127,10 +127,11 @@ def action_test():
     else:
         if (action == 'special_sub'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(
-                stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
+                astream=audio_stream,stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'special_trans'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(
+                astream=audio_stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special HEVC transcode option request detected and the options are: \n   "
         elif (action == 'copy'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY
@@ -154,6 +155,10 @@ def action_test():
         else:
             raise SystemExit("No action command offered or invalid action command!  Exiting.")
         opttest(FFMPEG_OPTIONS, Message)
+    if (action != 'special_copy'):
+        colors.print_green_no_cr ('Extension is set to')
+        colors.print_red(extension)          
+
 
 
 
