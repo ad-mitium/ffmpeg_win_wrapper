@@ -63,6 +63,7 @@ The following optional flags are:
     -opt, --ffmpeg-option       Override default options for custom options provided by user 
     -as, --audio-stream         Select audio stream, defaults to first stream (0)
     -ss, --sub-stream           Select subtitle stream, defaults to second stream (2)
+    -vs, --video-stream         Select subtitle stream, defaults to first stream (0)
     
     -h, --help                  Ouputs helpful(maybe?) usage information for this script
     -v, --version               Outputs current version

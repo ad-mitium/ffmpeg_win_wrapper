@@ -119,7 +119,7 @@ def action_test():
         global extension 
         extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(
-            astream=audio_stream,stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
+            vstream=video_stream,astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
         Message="Special HEVC transcode and subtitle copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
         colors.print_green_no_cr ('Extension is now set to')
@@ -127,29 +127,34 @@ def action_test():
     else:
         if (action == 'special_sub'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(
-                astream=audio_stream,stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
+                vstream=video_stream,astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'special_trans'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(
-                astream=audio_stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
+                vstream=video_stream,astream=audio_stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special HEVC transcode option request detected and the options are: \n   "
         elif (action == 'copy'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY
             Message="Copy option request detected and the options are: \n   "
         elif (action == 'copysub'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB.format(astream=audio_stream,stream=stream)
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB.format(
+                vstream=video_stream,astream=audio_stream,sstream=stream)
             Message="Copy subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'subtrans'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(astream=audio_stream,stream=stream,rate=rate,gpu_codec=GPU_type_264)
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(
+                vstream=video_stream,astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_264)
             Message="Subtitle H.264 option request detected and the options are: \n   "
         elif (action == 'subtrans265'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(astream=audio_stream,stream=stream,rate=rate,gpu_codec=GPU_type_265)
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(
+                vstream=video_stream,astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265)
             Message="Subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'trans265'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_HEVC.format(rate=rate,gpu_codec=GPU_type_265)
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_HEVC.format(
+                vstream=video_stream,rate=rate,gpu_codec=GPU_type_265)
             Message="Transcode HEVC option request detected and the options are: \n   "
         elif (action == 'transcode'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_TRANS.format(rate=rate,gpu_codec=GPU_type_264)        
+            FFMPEG_OPTIONS=FFMPEG_OPTIONS_TRANS.format(
+                vstream=video_stream,rate=rate,gpu_codec=GPU_type_264)        
             Message="Transcode H.264 option request detected and the options are: \n   "
 
         else:
@@ -198,6 +203,7 @@ parser.add_argument('-r','--report-file', help='''Enter STDIO report file name (
 parser.add_argument('-rate','--encode-rate', default=defaults['encode_rate'],help='''Encode rate, default is 23''') 
 parser.add_argument('-ss','--sub-stream', default=defaults['stream'], help='''Select subtitle stream, defaults to 2''') 
 parser.add_argument('-v','--version', action='version', version='%(prog)s {}'.format(ver.ver_info(version_number)), help='show the version number and exit')
+parser.add_argument('-vs','--video-stream', default=defaults['video_stream'], help='''Select video stream, defaults to 0''') 
 args = parser.parse_args()
 
 action=args.action_command.lower()
