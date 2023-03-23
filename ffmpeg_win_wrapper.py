@@ -116,14 +116,14 @@ def action_test():
     global FFMPEG_OPTIONS
     colors.print_white_no_cr(action+":")
     if (action == 'special_copy'): 
-        global ext 
-        ext = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
+        global extension 
+        extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(
             astream=audio_stream,stream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
         Message="Special HEVC transcode and subtitle copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
         colors.print_green_no_cr ('Extension is now set to')
-        colors.print_red(ext)          
+        colors.print_red(extension)          
     else:
         if (action == 'special_sub'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(
@@ -199,17 +199,17 @@ action=args.action_command.lower()
 input_filename=str(args.input_file)
 output_file=args.output_file
 output_path=args.dest_folder
-ext=args.ext.lower()
+extension=args.ext.lower()
 
 if not (args.report_file is None):
-    base_dir=joinpath(str(home_dir),report_folder)  # Location to place report file
+    base_report_dir=joinpath(str(home_dir),report_folder)  # Location to place report file
     report_file_name=args.report_file
     stdout_file_name=report_file_name+'.out'
-    stdout_file=os.path.join(base_dir , stdout_file_name)
+    stdout_file=os.path.join(base_report_dir , stdout_file_name)
     stderr_file_name=report_file_name+'.err'
-    stderr_file=os.path.join(base_dir , stderr_file_name)
+    stderr_file=os.path.join(base_report_dir , stderr_file_name)
     report_file_names=[stderr_file,stdout_file]
-    test_path(base_dir)
+    test_path(base_report_dir)
 
 enabled_copy=args.disable_copy_file
 enabled_dict=args.disable_dict
@@ -229,7 +229,12 @@ stream=check_num(args.sub_stream)
 
 # Stream and encode rate handling
 audio_stream=check_num(args.audio_stream)
+video_stream=check_num('0')
 
+colors.print_green_no_cr ('Video stream is')
+colors.print_red_no_cr(video_stream+'  ')
+colors.print_green_no_cr ('Audio stream is')
+colors.print_red_no_cr(audio_stream+'  ')
 colors.print_green_no_cr ('Subtitle stream is')
 colors.print_red_no_cr(stream+'  ')
 
@@ -290,10 +295,10 @@ action_test()   # Check what action user wanted
 #colors.print_yellow(output_path)
 #print ('Output filename is', end=" ")
 if enabled_local_copy:
-    output_filename_ext=os.path.join(base_outdir,output_file+'.'+ext)
+    output_filename_ext=os.path.join(base_outdir,output_file+'.'+ension)
     #colors.print_red(output_filename_ext)
 else:
-    output_filename_ext=output_file+'.'+ext
+    output_filename_ext=output_file+'.'+extension
 #colors.print_yellow(output_filename_ext)
 #print ('GPU is', end=" ")
 #colors.print_red(enabled_GPU)
