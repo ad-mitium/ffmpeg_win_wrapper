@@ -7,7 +7,7 @@ from time import strftime
 from lib import version as ver
 from lib import colors
 import textwrap 
-from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options
+from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format
 from config.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
 from lib.action_description import action_description as act_desc
 
@@ -119,11 +119,13 @@ def action_test():
         global extension 
         extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(
-            vstream=video_stream,astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
+            vstream=video_stream,pix_fmt=pixel_format[enabled_GPU],astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
         Message="Special HEVC transcode and subtitle copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
+        colors.print_green_no_cr ('Pixel format is set to')
+        colors.print_red(pixel_format[enabled_GPU])
         colors.print_green_no_cr ('Extension is now set to')
-        colors.print_red(extension)          
+        colors.print_red(extension) 
     else:
         if (action == 'special_sub'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(
