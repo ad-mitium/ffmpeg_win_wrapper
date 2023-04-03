@@ -50,6 +50,7 @@ Again, while this will work, I cannot provide additional assistance on making th
 
 The following optional flags are:
 
+    -c, --check-file            Enable probing file for encoded information 
     -ddt, --disable-dict        Disable dictionary for mutliple copy locations
     -dlc, --disable-local-dir   Disable local output directory, save in current folder
     -dtc, --tc_disable          Disables transcoding (For debugging)
@@ -103,6 +104,7 @@ TermColor
 * Add "special" high quality video settings for intel and nvidia gpus after testing (Hardware needed) (Partially completed, alpha testing in Ver. 0.0.13 {testing on this code base, Pascal is really FAST!})
 * Add flag to indicate either H.264 or HEVC format transcoding to eliminate multiple options for similar settings (code reduction)
 * Add flag to indicate special variable rate transcoding (Partially completed)
+* Move defined functions to lib folder (as appropriate)
 * ~~Fix inelegant stream # handling~~
 * ~~Add ability to insert stream channel instead of defaulting to first sub stream~~
 * Reduce the number of locations to update when adding new actions, currently four locations in three separate files need to be changed

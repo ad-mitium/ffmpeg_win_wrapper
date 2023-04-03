@@ -51,12 +51,21 @@ def check_num(num): # Sanity test for input
         else:
             raise SystemExit('Too many failures to enter a valid integer, exiting.')
 
+def probetest():
+    command='ffprobe -hide_banner -i '+ '"' + input_filename + '"'
+    if PROBE_TEST:
+        colors.print_blue("Probing file for encoded information")
+        os.system(command)
+        colors.cprint ("Command executed was:\n    ", 'green', attrs=['bold'], end=' ')
+        colors.print_yellow(textwrap.fill(text=command, width=defaults['display_wrap_width'], subsequent_indent='        '))
+        raise SystemExit(0)
+
 def hwtest():
     if HW_TEST == None:
         colors.print_blue("Default hardware options to be used")
     elif (HW_TEST[0] == '-'):
         global FFMPEG_HW_OPTIONS
-        FFMPEG_HW_OPTIONS=HW_TEST
+        FFMPEG_HW_OPTIONS=' '+HW_TEST
         colors.print_green_no_cr ("Custom hardware options detected and the options are: \n   ")
         colors.print_yellow(textwrap.fill(text=FFMPEG_HW_OPTIONS, width=defaults['option_wrap_width'], subsequent_indent='        '))
     else:
@@ -168,8 +177,6 @@ def action_test():
 
 
 
-
-
 ##############################################################################
 ##############################################################################
 #####                                                                    #####
@@ -192,6 +199,7 @@ parser.add_argument('input_file', help='''Enter input file name to encode/transc
 parser.add_argument('dest_folder', help='''Enter ouput folder path surrounded by \' \' ''')
 parser.add_argument('output_file', help='''Enter output file name without extension''')
 parser.add_argument('-as','--audio-stream', default=defaults['audio_stream'], help='''Select audio stream, defaults to first stream''') 
+parser.add_argument('-c','--check-file', action='store_true',help='''Probe file for encoded information''') 
 parser.add_argument('-ddt','--disable-dict', action='store_false',help='''Disable copy to remote folder using dictionary''') 
 parser.add_argument('-dlc','--disable-local_dir', action='store_false',help='''Disable local ouput directory, save in current folder''') 
 parser.add_argument('-dtc','--tc-disable', action='store_false',help='''Disable transcoding (For debugging)''') 
@@ -232,7 +240,13 @@ enabled_transcode=args.tc_disable
 
 test_path(base_outdir)
 
-colors.print_blue('Transcoding...')
+PROBE_TEST=args.check_file
+
+# colors.print_red_no_cr("Probe test is")
+# colors.print_green(PROBE_TEST)
+probetest()
+
+colors.print_blue_no_cr('{}'.format('' if PROBE_TEST else 'Transcoding... \n'))
 
 colors.print_green_no_cr ('GPU is')
 colors.print_red_no_cr(args.gpu+'  ')
@@ -318,7 +332,7 @@ else:
 
 
 #########   Transcode file   #########
-command='ffmpeg -hide_banner ' + FFMPEG_HW_OPTIONS +  ' -i '+ '"'+ input_filename +'" '+ FFMPEG_OPTIONS +' "'+ output_filename_ext +'" '
+command='ffmpeg -hide_banner' + FFMPEG_HW_OPTIONS +  ' -i '+ '"'+ input_filename +'" '+ FFMPEG_OPTIONS +' "'+ output_filename_ext +'" '
 if enabled_transcode:
     os.system(command)
 curr_time=strftime('%H%M%S')
