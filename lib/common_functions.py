@@ -59,7 +59,7 @@ def copy_to_remote(full_path,output_directory,filename_ext,copy_status):
     colors.print_cyan_no_cr(output_directory)
     print("", end =" ")
     if copy_status:
-        test_path(full_path)
+        test_path(full_path,copy_status)
         shutil.copy(filename_ext, full_out_path)
     # colors.print_cyan_no_cr(output_directory)
     # print("", end =" ")
