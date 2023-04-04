@@ -10,7 +10,7 @@ import textwrap
 from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format
 from config.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
 from lib.action_description import action_description as act_desc
-
+from lib.common_functions import check_num,exit_on_error,joinpath,probetest,test_path,copy_to_remote
 
 ##############################################################################
 #####                                                                    #####
@@ -22,44 +22,10 @@ from lib.action_description import action_description as act_desc
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 15)
+version_number = (0, 0, 16)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
-def joinpath(rootdir, targetdir):
-    return os.path.join(os.sep, rootdir + os.sep, targetdir)
-
-def exit_on_error():
-    answer = input("Continue with default options? [y/N]  ").lower()
-    if answer == 'y':
-        print("Continuing with default options")
-    else:
-        print("Exiting.")
-        raise SystemExit(0)
-    
-def check_num(num): # Sanity test for input
-    limit=10        # Don't dwell on failure forever
-    for i in (range(limit, -1, -1)):
-        if i > 0:
-            try: 
-                int(num)
-                # print("Valid integer: ", num)
-                return num
-            except ValueError:
-                num=input("Please enter a valid integer: ")
-                i=i-1
-        else:
-            raise SystemExit('Too many failures to enter a valid integer, exiting.')
-
-def probetest():
-    command='ffprobe -hide_banner -i '+ '"' + input_filename + '"'
-    if PROBE_TEST:
-        colors.print_blue("Probing file for encoded information")
-        os.system(command)
-        colors.cprint ("Command executed was:\n    ", 'green', attrs=['bold'], end=' ')
-        colors.print_yellow(textwrap.fill(text=command, width=defaults['display_wrap_width'], subsequent_indent='        '))
-        raise SystemExit(0)
-
 def hwtest():
     if HW_TEST == None:
         colors.print_blue("Default hardware options to be used")
@@ -88,37 +54,6 @@ def opttest(F_OPTIONS,Message):
         colors.print_red_error(test_type)
         colors.print_yellow(textwrap.fill(text=OPT_TEST, width=defaults['option_wrap_width'], subsequent_indent='        '))
         exit_on_error()
-
-def test_path(output_folder_path):
-    if os.path.exists((output_folder_path)):
-        # print(os.path.dirname(output_folder_path))
-        # print(output_folder_path," exists")
-        pass
-    else:
-        colors.print_red(textwrap.fill(text="ERROR: "+output_folder_path+" does not exist", 
-            width=defaults['display_wrap_width'], subsequent_indent='          '))
-        if enabled_copy:
-            colors.print_orange("Creating "+output_folder_path)
-            Path(output_folder_path).mkdir( parents=True, exist_ok=True)
-        else:
-            colors.print_orange(textwrap.fill(text="If copying were enabled, '"+output_folder_path+"' would be created.", 
-                width=defaults['display_wrap_width'], subsequent_indent='          '))
-
-def copy_to_remote():
-    colors.print_cyan_no_cr(out_dir_name)
-    print("", end =" ")
-    if enabled_copy:
-        test_path(full_out_path)
-        shutil.copy(output_filename_ext, full_out_path)
-    # colors.print_cyan_no_cr(out_dir_name)
-    # print("", end =" ")
-    colors.print_yellow_no_cr(output_filename_ext if len(output_filename_ext)<defaults['filename_wrap_width'] 
-        else textwrap.fill(text=output_filename_ext, width=defaults['filename_wrap_width'], subsequent_indent='               '))
-    print('{} copied to'.format('' if enabled_copy else ' would be'), end =" ")
-    print('' if len(output_filename_ext)<defaults['filename_wrap_width'] else '\n           ', end="") # new line becuase the filename was too long
-    colors.print_white(textwrap.fill(text=full_out_path, width=defaults['foldername_wrap_width'], subsequent_indent='          ') 
-        if len(output_filename_ext)<defaults['filename_wrap_width'] 
-        else textwrap.fill(text=full_out_path, width=defaults['display_wrap_width'], subsequent_indent='               '))
 
 def action_test():
     #########   Determine transcode action   #########
@@ -187,6 +122,7 @@ def action_test():
 
 home_dir=Path.home()    # No need to change this
 base_outdir=joinpath(str(home_dir),local_folder)  # Location to save output to before copying
+FFMPEG_HW_OPTIONS=""
 
 #########   Command line interaction for user supplied variables   #########
 # provide description and version info
@@ -238,23 +174,21 @@ enabled_GPU=args.gpu.lower()
 enabled_local_copy=args.disable_local_dir
 enabled_transcode=args.tc_disable
 
-test_path(base_outdir)
+test_path(base_outdir,enabled_copy)
 
 PROBE_TEST=args.check_file
 
 # colors.print_red_no_cr("Probe test is")
 # colors.print_green(PROBE_TEST)
-probetest()
+probetest(input_filename,PROBE_TEST)    # Exits after probing file, does not move forward past this point
 
 colors.print_blue_no_cr('{}'.format('' if PROBE_TEST else 'Transcoding... \n'))
 
 colors.print_green_no_cr ('GPU is')
 colors.print_red_no_cr(args.gpu+'  ')
 
-# Stream and encode rate handling
+# Custom stream handling
 stream=check_num(args.sub_stream)
-
-# Stream and encode rate handling
 audio_stream=check_num(args.audio_stream)
 video_stream=check_num('0')
 
@@ -265,18 +199,18 @@ colors.print_red_no_cr(audio_stream+'  ')
 colors.print_green_no_cr ('Subtitle stream is')
 colors.print_red_no_cr(stream+'  ')
 
+# Encode rate handling
 rate=check_num(args.encode_rate)
 
 colors.print_green_no_cr ('Encode rate is')
 colors.print_red(rate)
 
+# Dictionary use status
 # if not enabled_dict:
 #     colors.print_red("Dictionary disabled")   # For debugging
 
 OPT_TEST=args.ffmpeg_option
 HW_TEST=args.ffmpeg_hardware
-
-FFMPEG_HW_OPTIONS=""
 
 hwtest()
 
@@ -366,8 +300,8 @@ if enabled_dict:
         # print (out_dir_name)
         # print (out_dir_path)
         full_out_path=joinpath(out_dir_path,output_path)
-        test_path(full_out_path)
-        copy_to_remote()
+        test_path(full_out_path,enabled_copy)
+        copy_to_remote(full_out_path,out_dir_path,output_filename_ext,enabled_copy)
 else:
     colors.print_red("Dictionary disabled")
     for out_dir_path in out_dir:
@@ -375,8 +309,8 @@ else:
         # print (out_dir_name)
         # print (out_dir_path)
         full_out_path=joinpath(out_dir_path,output_path)
-        test_path(full_out_path)
-        copy_to_remote()
+        test_path(full_out_path,enabled_copy)
+        copy_to_remote(full_out_path,out_dir_path,output_filename_ext,enabled_copy)
 # print("\r.")
 
 colors.print_blue("\rCopying completed")
