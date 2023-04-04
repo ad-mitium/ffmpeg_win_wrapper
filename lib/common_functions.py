@@ -2,8 +2,6 @@
 
 import os,shutil,textwrap
 from pathlib import Path
-from lib import colors
-from config.dest_folders import defaults
 
 
 #########   Useful functions   #########
@@ -74,6 +72,16 @@ def copy_to_remote(full_path,output_directory,filename_ext,copy_status):
         else textwrap.fill(text=full_path, width=defaults['display_wrap_width'], subsequent_indent='               '))
 
 if (__name__ == '__main__'): 
-
-    check_num('8')
+    import colors
+    defaults={
+    'option_wrap_width':100,
+    'display_wrap_width':120,
+    'filename_wrap_width':80,
+    'foldername_wrap_width':80
+}
+    num=check_num('8')
+    print(num)
     exit_on_error()
+else:
+    from lib import colors
+    from config.dest_folders import defaults
