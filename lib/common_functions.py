@@ -3,7 +3,7 @@
 import os,shutil,textwrap
 from pathlib import Path
 from lib import colors
-from config.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
+from config.dest_folders import defaults
 
 
 #########   Useful functions   #########
