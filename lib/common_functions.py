@@ -3,7 +3,6 @@
 import os,shutil,textwrap
 from pathlib import Path
 from lib import colors
-from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format
 from config.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
 
 
