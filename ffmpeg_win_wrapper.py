@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Authored by Timothy Mui 11/15/2022
 
-import argparse,os,shutil
+import argparse,os
 from pathlib import Path
 from time import strftime
 from lib import version as ver

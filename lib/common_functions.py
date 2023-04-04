@@ -47,14 +47,14 @@ def test_path(output_folder_path, copy_status):
         # print(output_folder_path," exists")
         pass
     else:
-        colors.print_red(textwrap.fill(text='ERROR:    "'+output_folder_path+'" does not exist', 
-            width=defaults['display_wrap_width'], subsequent_indent='          '))
+        colors.print_red(textwrap.fill(text='ERROR:     "'+output_folder_path+'" does not exist', 
+            width=defaults['display_wrap_width'], subsequent_indent='           '))
         if copy_status:
             colors.print_orange("Creating "+output_folder_path)
             Path(output_folder_path).mkdir( parents=True, exist_ok=True)
         else:
-            colors.print_orange(textwrap.fill(text="If copying were enabled, '"+output_folder_path+"' would be created.", 
-                width=defaults['display_wrap_width'], subsequent_indent='          '))
+            colors.print_orange(textwrap.fill(text="           "+"If copying were enabled, '"+output_folder_path+"' would be created.", 
+                width=defaults['display_wrap_width'], subsequent_indent='               '))
 
 def copy_to_remote(full_path,output_directory,filename_ext,copy_status):
     colors.print_cyan_no_cr(output_directory)
