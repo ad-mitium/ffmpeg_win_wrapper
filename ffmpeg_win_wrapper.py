@@ -190,7 +190,7 @@ colors.print_red_no_cr(args.gpu+'  ')
 # Custom stream handling
 stream=check_num(args.sub_stream)
 audio_stream=check_num(args.audio_stream)
-video_stream=check_num('0')
+video_stream=check_num(args.video_stream)
 
 colors.print_green_no_cr ('Video stream is')
 colors.print_red_no_cr(video_stream+'  ')
