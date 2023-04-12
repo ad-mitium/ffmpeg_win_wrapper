@@ -25,7 +25,7 @@ copy_files={
 special={       # Default ffmpeg presets were adding distracting amounts of pixelation during transcoding, changed to yuv420p from nv12
     'special_sub': '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt yuv420p -b:v 0K -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en',
     'special_copy': '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt yuv420p -b:v 0K -vtag hvc1 -c:a copy -c:s copy',
-    'special_trans': '-map 0:v:{vstream} -map 0:a -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt {pix_fmt} -b:v 0K -vtag hvc1 -c:a copy '
+    'special_trans': '-map 0:v:{vstream} -map 0:a -map 0:s -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt {pix_fmt} -b:v 0K -vtag hvc1 -c:a copy -c:s copy'
 }
 
 gpu_special_options={
