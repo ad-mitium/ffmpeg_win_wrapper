@@ -66,18 +66,14 @@ def action_test():
             vstream=video_stream,pix_fmt=pixel_format[enabled_GPU],astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
         Message="Special HEVC transcode and subtitle copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message)
-        colors.print_green_no_cr ('Pixel format is set to')
-        colors.print_red(pixel_format[enabled_GPU])
-        colors.print_green_no_cr ('Extension is now set to')
-        colors.print_red(extension) 
     else:
         if (action == 'special_sub'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(
-                vstream=video_stream,astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
+                vstream=video_stream,pix_fmt=pixel_format[enabled_GPU],astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'special_trans'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(
-                vstream=video_stream,astream=audio_stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
+                vstream=video_stream,pix_fmt=pixel_format[enabled_GPU],astream=audio_stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special HEVC transcode option request detected and the options are: \n   "
         elif (action == 'copy'): 
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY
@@ -106,9 +102,22 @@ def action_test():
         else:
             raise SystemExit("No action command offered or invalid action command!  Exiting.")
         opttest(FFMPEG_OPTIONS, Message)
-    if (action != 'special_copy'):
+    
+    # Diagnostic dialogue to display action specific changes
+    if (action== 'special_copy'):
+        colors.print_green_no_cr ('Extension is now set to')
+        colors.print_red(extension) 
+    else:
         colors.print_green_no_cr ('Extension is set to')
-        colors.print_red(extension)          
+        colors.print_red(extension) 
+    # Diagnostic dialog to display GPU specific changes
+    if (enabled_GPU == 'nvidia'):
+        colors.print_green_no_cr ('Pixel format is now set to')
+        colors.print_red(pixel_format[enabled_GPU])
+    else:
+        colors.print_green_no_cr ('Pixel format is set to')
+        colors.print_red(pixel_format[enabled_GPU])
+
 
 
 
