@@ -20,6 +20,6 @@ Python script that wraps ffmpeg command to transcode a video file with a given f
         special_copy    Transcode into h.265 format with variable quality video, keeps original sub stream format, defaults to 1st sub stream
         special_sub     Transcode into h.265 format with variable quality video, defaults to 1st sub stream
         special_trans   Transcode into h.265 format with variable quality video 
-      *Note* special_copy defaults to .mkv (hard coded)
+      *Note* Both special_copy and special_trans default to .mkv (hard coded)
  """ 
  }

@@ -55,12 +55,10 @@ def opttest(F_OPTIONS,Message):
         colors.print_yellow(textwrap.fill(text=OPT_TEST, width=defaults['option_wrap_width'], subsequent_indent='        '))
         exit_on_error()
 
-def action_test():
+def action_test(extension):
     #########   Determine transcode action   #########
-    global FFMPEG_OPTIONS
     colors.print_white_no_cr(action+":")
     if (action == 'special_copy'): 
-        global extension 
         extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
         FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(
             vstream=video_stream,pix_fmt=pixel_format[enabled_GPU],astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
@@ -72,6 +70,7 @@ def action_test():
                 vstream=video_stream,pix_fmt=pixel_format[enabled_GPU],astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'special_trans'): 
+            extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
             FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(
                 vstream=video_stream,pix_fmt=pixel_format[enabled_GPU],astream=audio_stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
             Message="Special HEVC transcode option request detected and the options are: \n   "
@@ -104,7 +103,7 @@ def action_test():
         opttest(FFMPEG_OPTIONS, Message)
     
     # Diagnostic dialogue to display action specific changes
-    if (action== 'special_copy'):
+    if (action == 'special_copy') or (action == 'special_trans'):
         colors.print_green_no_cr ('Extension is now set to')
         colors.print_red(extension) 
     else:
@@ -117,7 +116,7 @@ def action_test():
     else:
         colors.print_green_no_cr ('Pixel format is set to')
         colors.print_red(pixel_format[enabled_GPU])
-
+    return(FFMPEG_OPTIONS,extension)
 
 
 
@@ -165,7 +164,7 @@ action=args.action_command.lower()
 input_filename=str(args.input_file)
 output_file=args.output_file
 output_path=args.dest_folder
-extension=args.ext.lower()
+# extension=args.ext.lower()
 
 if not (args.report_file is None):
     base_report_dir=joinpath(str(home_dir),report_folder)  # Location to place report file
@@ -256,7 +255,7 @@ FFMPEG_OPTIONS_SPECIAL_TRANS=special['special_trans']
 
 # print(OPT_TEST)   # For debugging
 
-action_test()   # Check what action user wanted
+FFMPEG_OPTIONS, extension = action_test(args.ext.lower())   # Check what action user wanted
 
 ########   Echo back info provided   ########
 #print ('Input filename is', end =" ")

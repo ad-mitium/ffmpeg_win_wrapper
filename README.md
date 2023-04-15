@@ -83,7 +83,7 @@ Action commands include (use -opt to specify unique options):
     special_sub     Transcode into h.265 format with variable quality video, defaults to 1st sub stream
     special_trans   Transcode into h.265 format with variable quality video
 
-*Note* special_copy defaults to .mkv (hard coded)
+*Note* Both special_copy and special_trans default to .mkv (hard coded)
   
 ## Pitfalls to be aware of
 
