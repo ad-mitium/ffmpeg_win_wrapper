@@ -84,7 +84,15 @@ Action commands include (use -opt to specify unique options):
     special_trans   Transcode into h.265 format with variable quality video
 
 *Note* Both special_copy and special_trans default to .mkv (hard coded)
-  
+
+### Special options
+
+There are some subtle distictions between the three options:
+
+    special_copy    The most flexible of the three, allows you to select video, audio and subtitle streams
+    special_sub     Allows you to select video, audio and subtitle streams, but transcodes into a mp4 container
+    special_trans   Allows you to select the video stream, and then copies all audio and subtitle streams
+
 ## Pitfalls to be aware of
 
 * You need to download a Windows compiled version for FFMPEG from ffmpeg.org (I'm using the one linked to gyan.dev)
@@ -95,9 +103,9 @@ Action commands include (use -opt to specify unique options):
   
 ### Required to use this script *(Aside from Python 3)*
 
-TermColor
+* TermColor
 
-* pip install termcolor
+        pip install termcolor
 
 ## To Do
 
