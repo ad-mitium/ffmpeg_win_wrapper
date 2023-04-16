@@ -38,7 +38,7 @@ gpu_special_options={
 
 pixel_format={
     'amd':'yuv420p',        # At this time, 10 bit encoding is still unsupported for AMD GPUs
-    'nvidia':'yuv420p10le',
+    'nvidia':'p10le',
     'none':'yuv420p'        # Not doing 10 bit without a GPU at this time, sorry no Intel support for QSV at this time due to lack of testing hardware
 }
 
