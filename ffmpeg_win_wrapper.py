@@ -7,7 +7,6 @@ from time import strftime
 from lib import version as ver
 from lib import colors
 import textwrap 
-from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format
 from config.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
 from lib.action_description import action_description as act_desc
 from lib.common_functions import check_num,exit_on_error,joinpath,probetest,test_path,copy_to_remote
@@ -23,7 +22,7 @@ from lib.action_test_command import action_test
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 1, 0)
+version_number = (0, 1, 00)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########

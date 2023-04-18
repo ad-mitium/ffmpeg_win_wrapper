@@ -2,7 +2,7 @@
 
 import textwrap
 
-def opttest(F_OPTIONS,Message, Custom_Options):
+def opttest(F_OPTIONS,Message,Custom_Options):
     if Custom_Options == None:
         colors.print_green_no_cr(Message)
         colors.print_yellow (textwrap.fill(text=F_OPTIONS, width=defaults['option_wrap_width'], subsequent_indent='        '))
@@ -135,6 +135,7 @@ def set_ffmpeg_conditions(action_command,GPU_brand):
         if action_command == 'copysub':
             action_command = 'copy_sub'    # Work around due to different naming schemes
         F_OPTIONS=copy_files[action_command]
+
     if (action_command in ('special_copy','special_sub','special_trans')):
         if GPU_brand == 'amd':
             encode_type = 'hevc_amf'
@@ -143,18 +144,15 @@ def set_ffmpeg_conditions(action_command,GPU_brand):
         else:
             encode_type = 'libx265'
         F_OPTIONS=special[action_command]
-
     else:
         F_OPTIONS='Invalid options'    # If none of the action commands are given, send malformed options message
 
     return(F_OPTIONS,encode_type,gpu_options)
 
-
 if (__name__ == '__main__'):
     import sys
     import colors
-    sys.path.append('config')
-    # sys.path.append('lib')
+    sys.path.append('config')   # allows for finding ffmpeg_options.py
     from ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format
     from dest_folders import defaults
 
@@ -184,7 +182,6 @@ if (__name__ == '__main__'):
         action_command == ''
 
     conditions, encode_format, gpu_options=set_ffmpeg_conditions(action_command, enabled_gpu)
-
     print('From set ffmpeg conditions: ',encode_format,conditions,gpu_options)
 
     options, extension = action_test(action_command, enabled_gpu, video_stream, audio_stream, subtitle_stream, extension, encode_rate, OPT_TEST)
@@ -194,4 +191,4 @@ else:
     import lib.colors as colors
     from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format
     from lib.common_functions import exit_on_error
-    from config.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
+    from config.dest_folders import defaults
