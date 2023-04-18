@@ -11,6 +11,7 @@ from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu
 from config.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
 from lib.action_description import action_description as act_desc
 from lib.common_functions import check_num,exit_on_error,joinpath,probetest,test_path,copy_to_remote
+from lib.action_test_command import action_test
 
 ##############################################################################
 #####                                                                    #####
@@ -22,7 +23,7 @@ from lib.common_functions import check_num,exit_on_error,joinpath,probetest,test
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 0, 16)
+version_number = (0, 1, 0)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -39,84 +40,6 @@ def hwtest():
         colors.print_red_error(test_type)
         colors.print_yellow(textwrap.fill(text=HW_TEST, width=defaults['option_wrap_width'], subsequent_indent='        '))
         exit_on_error()
-
-def opttest(F_OPTIONS,Message):
-    if OPT_TEST == None:
-        colors.print_green_no_cr(Message)
-        colors.print_yellow (textwrap.fill(text=F_OPTIONS, width=defaults['option_wrap_width'], subsequent_indent='        '))
-    elif (OPT_TEST[0] == '-'):
-        global FFMPEG_OPTIONS
-        FFMPEG_OPTIONS=OPT_TEST
-        colors.print_green_no_cr ("Custom options detected and the options are: \n   ")
-        colors.print_yellow(textwrap.fill(text=FFMPEG_OPTIONS, width=defaults['option_wrap_width'], subsequent_indent='        '))
-    else:
-        test_type='custom ffmpeg options'
-        colors.print_red_error(test_type)
-        colors.print_yellow(textwrap.fill(text=OPT_TEST, width=defaults['option_wrap_width'], subsequent_indent='        '))
-        exit_on_error()
-
-def action_test(extension):
-    #########   Determine transcode action   #########
-    colors.print_white_no_cr(action+":")
-    if (action == 'special_copy'): 
-        extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
-        FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB_COPY.format(
-            vstream=video_stream,pix_fmt=pixel_format[enabled_GPU],astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
-        Message="Special HEVC transcode and subtitle copy option request detected and the options are: \n   "
-        opttest(FFMPEG_OPTIONS, Message)
-    else:
-        if (action == 'special_sub'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_SUB.format(
-                vstream=video_stream,pix_fmt=pixel_format[enabled_GPU],astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
-            Message="Special subtitle HEVC option request detected and the options are: \n   "
-        elif (action == 'special_trans'): 
-            extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SPECIAL_TRANS.format(
-                vstream=video_stream,pix_fmt=pixel_format[enabled_GPU],astream=audio_stream,rate=rate,gpu_codec=GPU_type_265,gpu_special_options=gpu_options)
-            Message="Special HEVC transcode option request detected and the options are: \n   "
-        elif (action == 'copy'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY
-            Message="Copy option request detected and the options are: \n   "
-        elif (action == 'copysub'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_COPY_SUB.format(
-                vstream=video_stream,astream=audio_stream,sstream=stream)
-            Message="Copy subtitle HEVC option request detected and the options are: \n   "
-        elif (action == 'subtrans'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB.format(
-                vstream=video_stream,astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_264)
-            Message="Subtitle H.264 option request detected and the options are: \n   "
-        elif (action == 'subtrans265'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_SUB_HEVC.format(
-                vstream=video_stream,astream=audio_stream,sstream=stream,rate=rate,gpu_codec=GPU_type_265)
-            Message="Subtitle HEVC option request detected and the options are: \n   "
-        elif (action == 'trans265'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_HEVC.format(
-                vstream=video_stream,rate=rate,gpu_codec=GPU_type_265)
-            Message="Transcode HEVC option request detected and the options are: \n   "
-        elif (action == 'transcode'): 
-            FFMPEG_OPTIONS=FFMPEG_OPTIONS_TRANS.format(
-                vstream=video_stream,rate=rate,gpu_codec=GPU_type_264)        
-            Message="Transcode H.264 option request detected and the options are: \n   "
-
-        else:
-            raise SystemExit("No action command offered or invalid action command!  Exiting.")
-        opttest(FFMPEG_OPTIONS, Message)
-    
-    # Diagnostic dialogue to display action specific changes
-    if (action == 'special_copy') or (action == 'special_trans'):
-        colors.print_green_no_cr ('Extension is now set to')
-        colors.print_red(extension) 
-    else:
-        colors.print_green_no_cr ('Extension is set to')
-        colors.print_red(extension) 
-    # Diagnostic dialog to display GPU specific changes
-    if (enabled_GPU == 'nvidia'):
-        colors.print_green_no_cr ('Pixel format is now set to')
-        colors.print_red(pixel_format[enabled_GPU])
-    else:
-        colors.print_green_no_cr ('Pixel format is set to')
-        colors.print_red(pixel_format[enabled_GPU])
-    return(FFMPEG_OPTIONS,extension)
 
 
 
@@ -196,7 +119,7 @@ colors.print_green_no_cr ('GPU is')
 colors.print_red_no_cr(args.gpu+'  ')
 
 # Custom stream handling
-stream=check_num(args.sub_stream)
+subtitle_stream=check_num(args.sub_stream)
 audio_stream=check_num(args.audio_stream)
 video_stream=check_num(args.video_stream)
 
@@ -205,7 +128,7 @@ colors.print_red_no_cr(video_stream+'  ')
 colors.print_green_no_cr ('Audio stream is')
 colors.print_red_no_cr(audio_stream+'  ')
 colors.print_green_no_cr ('Subtitle stream is')
-colors.print_red_no_cr(stream+'  ')
+colors.print_red_no_cr(subtitle_stream+'  ')
 
 # Encode rate handling
 rate=check_num(args.encode_rate)
@@ -222,40 +145,10 @@ HW_TEST=args.ffmpeg_hardware
 
 hwtest()
 
-FFMPEG_OPTIONS_COPY= copy_files ['copy']
-FFMPEG_OPTIONS_COPY_SUB= copy_files ['copy_sub']
-if enabled_GPU in 'amd':
-    GPU_type_264='h264_amf'
-    GPU_type_265='hevc_amf'
-    gpu_options=gpu_special_options['amd']
-    FFMPEG_OPTIONS_SUB= amd['sub']
-    FFMPEG_OPTIONS_SUB_HEVC= amd['sub_hevc']
-    FFMPEG_OPTIONS_TRANS= amd['h264']
-    FFMPEG_OPTIONS_HEVC= amd['hevc']
-elif enabled_GPU in 'nvidia':
-    GPU_type_264='h264_nvenc'
-    GPU_type_265='hevc_nvenc'
-    gpu_options=gpu_special_options['nvidia']
-    FFMPEG_OPTIONS_SUB= nvidia['sub']
-    FFMPEG_OPTIONS_SUB_HEVC= nvidia['sub_hevc']
-    FFMPEG_OPTIONS_TRANS= nvidia['h264']
-    FFMPEG_OPTIONS_HEVC= nvidia['hevc']
-else:
-    GPU_type_264='libx264'
-    GPU_type_265='libx265'
-    gpu_options=gpu_special_options['none']
-    FFMPEG_OPTIONS_SUB= default_none['sub']
-    FFMPEG_OPTIONS_SUB_HEVC= default_none['sub_hevc']
-    FFMPEG_OPTIONS_TRANS= default_none['h264']
-    FFMPEG_OPTIONS_HEVC= default_none['hevc']
-
-FFMPEG_OPTIONS_SPECIAL_SUB=special['special_sub']
-FFMPEG_OPTIONS_SPECIAL_SUB_COPY=special['special_copy']
-FFMPEG_OPTIONS_SPECIAL_TRANS=special['special_trans']
-
 # print(OPT_TEST)   # For debugging
 
-FFMPEG_OPTIONS, extension = action_test(args.ext.lower())   # Check what action user wanted
+# Check action command requested
+FFMPEG_OPTIONS, extension = action_test(action,args.gpu.lower(),video_stream,audio_stream,subtitle_stream,args.ext.lower(),rate,OPT_TEST)
 
 ########   Echo back info provided   ########
 #print ('Input filename is', end =" ")
