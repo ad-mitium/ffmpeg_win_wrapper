@@ -153,7 +153,7 @@ if (__name__ == '__main__'):
     import sys
     import colors
     sys.path.append('config')   # allows for finding ffmpeg_options.py
-    from ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format
+    from ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format,encode_codec_type
     from dest_folders import defaults
 
     def exit_on_error():    # Circular import of colors.py when pulling in common_functions.py
@@ -189,6 +189,6 @@ if (__name__ == '__main__'):
     
 else:
     import lib.colors as colors
-    from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format
+    from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format,encode_codec_type
     from lib.common_functions import exit_on_error
     from config.dest_folders import defaults

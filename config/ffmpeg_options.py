@@ -42,6 +42,12 @@ pixel_format={
     'none':'yuv420p'        # Not doing 10 bit without a GPU at this time, sorry no Intel support for QSV at this time due to lack of testing hardware
 }
 
+encode_codec_type={
+    'h264':{'amd':'h264_amf','nvidia':'h264_nvenc','none':'libx264'},
+    'h265':{'amd':'hevc_amf','nvidia':'hevc_nvenc','none':'libx265'},
+    '':{''}
+}
+
     # 'special_sub': '-map 0:v -map 0:a -map 0:{stream}? -c:v {gpu_codec} -rc vbr_latency -qmin 26 -pix_fmt yuv420p -b:v 0K -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en',
 
 # FFMPEG_OPTIONS_SPECIAL='-map 0:v -map 0:a -map 0:{stream}? -c:v copy -c:a copy -c:s mov_text -metadata:s:s:0 language=en'
