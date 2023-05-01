@@ -107,6 +107,7 @@ There are some subtle distictions between the three options:
 
         pip install termcolor
 * TextWrap
+
         pip install textwrap
 
 ## To Do
