@@ -55,8 +55,8 @@ def test_path(output_folder_path, copy_status):
                 "If copying were enabled, '"+output_folder_path+"' would be created.", 
                 width=defaults['display_wrap_width'], subsequent_indent='               '))
 
-def copy_to_remote(full_path,output_directory,filename_ext,copy_status):
-    colors.print_cyan_no_cr(output_directory)
+def copy_to_remote(full_path_name,full_path,filename_ext,copy_status):
+    colors.print_cyan_no_cr(full_path_name)
     print("", end =" ")
     if copy_status:
         test_path(full_path,copy_status)

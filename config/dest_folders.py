@@ -14,7 +14,7 @@ defaults={
     'stream':'2',   # Default subtitle stream
     'option_wrap_width':100,
     'display_wrap_width':120,
-    'filename_wrap_width':80,
+    'filename_wrap_width':97,
     'foldername_wrap_width':80
 }
 

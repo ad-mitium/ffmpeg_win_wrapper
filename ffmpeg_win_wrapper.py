@@ -201,7 +201,7 @@ if enabled_dict:
         # print (out_dir_path)
         full_out_path=joinpath(out_dir_path,output_path)
         test_path(full_out_path,enabled_copy)
-        copy_to_remote(full_out_path,out_dir_path,output_filename_ext,enabled_copy)
+        copy_to_remote(out_dir_name,full_out_path,output_filename_ext,enabled_copy)
 else:
     colors.print_red("Dictionary disabled")
     for out_dir_path in out_dir:
@@ -210,7 +210,7 @@ else:
         # print (out_dir_path)
         full_out_path=joinpath(out_dir_path,output_path)
         test_path(full_out_path,enabled_copy)
-        copy_to_remote(full_out_path,out_dir_path,output_filename_ext,enabled_copy)
+        copy_to_remote(out_dir_name,full_out_path,output_filename_ext,enabled_copy)
 # print("\r.")
 
 colors.print_blue("\rCopying completed")
