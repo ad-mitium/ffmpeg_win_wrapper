@@ -67,7 +67,7 @@ def copy_to_remote(full_path_name,full_path,filename_ext,copy_status):
         else textwrap.fill(text=filename_ext, width=defaults['filename_wrap_width'], subsequent_indent='               '))
     print('{} copied to'.format('' if copy_status else ' would be'), end =" ")
     print('' if len(filename_ext)<defaults['filename_wrap_width'] else '\n           ', end="") # new line becuase the filename was too long
-    colors.print_white(textwrap.fill(text=full_path, width=defaults['foldername_wrap_width'], subsequent_indent='          ') 
+    colors.print_white_no_cr(textwrap.fill(text=full_path, width=defaults['foldername_wrap_width'], subsequent_indent='          ') 
         if len(filename_ext)<defaults['filename_wrap_width'] 
         else textwrap.fill(text=full_path, width=defaults['display_wrap_width'], subsequent_indent='               '))
 

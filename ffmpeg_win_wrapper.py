@@ -197,20 +197,31 @@ colors.print_blue("Copying files to remote location.\r")
 if enabled_dict:
     # colors.print_red("Dictionary in use")
     for out_dir_name, out_dir_path in out_dir_dict.items():
+        copy_start_time= strftime('%H%M%S')
         # print (out_dir_name)
         # print (out_dir_path)
         full_out_path=joinpath(out_dir_path,output_path)
         test_path(full_out_path,enabled_copy)
         copy_to_remote(out_dir_name,full_out_path,output_filename_ext,enabled_copy)
+        copy_end_time= strftime('%H%M%S')
+        copy_elapsed_time= int(copy_end_time) - int(copy_start_time)
+        colors.cprint("  Copy time: ", 'green', attrs=['bold'], end =" ")
+        colors.print_yellow(copy_elapsed_time)
+
 else:
     colors.print_red("Dictionary disabled")
     for out_dir_path in out_dir:
+        copy_start_time= strftime('%H%M%S')
         out_dir_name=out_dir_path
         # print (out_dir_name)
         # print (out_dir_path)
         full_out_path=joinpath(out_dir_path,output_path)
         test_path(full_out_path,enabled_copy)
         copy_to_remote(out_dir_name,full_out_path,output_filename_ext,enabled_copy)
+        copy_end_time= strftime('%H%M%S')
+        copy_elapsed_time= int(copy_end_time) - int(copy_start_time)
+        colors.cprint("  Copy time: ", 'green', attrs=['bold'], end =" ")
+        colors.print_yellow(copy_elapsed_time)
 # print("\r.")
 
 colors.print_blue("\rCopying completed")
