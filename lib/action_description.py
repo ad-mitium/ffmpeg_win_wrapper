@@ -5,7 +5,7 @@ action_description={
 Python script that wraps ffmpeg command to transcode a video file with a given file name into mp4 format. 
 
   Usage: ffmeg_win.py [action] [-opt='options'] <input file> <destination folder> <output filename> [report filename]   
-  Examples: python3 ffmpeg_win.py transcode abc.mkv 'videos folder' abc -r report 
+  Examples: python3 ffmpeg_win.py transcode abc.mkv 'videos folder' abc -rep report 
             python3 ffmpeg_win.py subtrans abc.mkv 'videos folder' abc 
             python3 ffmpeg_win.py transcode -opt '-map 0:v -map 0:a -map 0:2? -c:v hevc_amf -c:a copy -c:s mov_text -metadata:s:s:0 language=en' abc.mkv 'videos folder' abc   """ 
 , 

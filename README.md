@@ -55,12 +55,12 @@ The following optional flags are:
     -dlc, --disable-local-dir   Disable local output directory, save in current folder
     -dtc, --tc_disable          Disables transcoding (For debugging)
     -nc, --disable-copy-file    Disables copying to folder(s)
-    -r, --report-file           Output files copied to file (Deprecated)
+    -rep, --report-file         Output files copied to file (Deprecated)
 
     -e, --ext                   Choose extension to convert to, default is MP4
     -g, --gpu                   Choose GPU hardware to convert with, default is None
     -hw, --ffmpeg-hardware      Optional hardware related options before input file
-    -rate, --encode-rate        Set encode rate, default is 23
+    -r, --encode-rate           Set encode rate, default is 23
     -opt, --ffmpeg-option       Override default options for custom options provided by user 
     -as, --audio-stream         Select audio stream, defaults to first stream (0)
     -ss, --sub-stream           Select subtitle stream, defaults to second stream (2)
