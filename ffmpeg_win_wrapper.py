@@ -226,6 +226,10 @@ else:
 
 colors.print_blue("\rCopying completed")
 
+# Print out output file size
+file_size = os.stat(output_filename_ext)
+colors.print_white(f'File size is {file_size.st_size  / (1024 * 1024):,.3f} MB')
+    
 # Print out report filenames
 # for name in report_file_names:
 #     print(name)
