@@ -227,7 +227,7 @@ else:
 colors.print_blue("\rCopying completed")
 
 # Print out output file size
-if enabled_transcode:   # Don't stat filesize if you dind't transcode the file
+if enabled_transcode:   # Don't stat filesize if you didn't transcode the file
     file_size = os.stat(output_filename_ext)
     colors.print_white(f'File size is {file_size.st_size  / (1024 * 1024):,.3f} MB')
     
