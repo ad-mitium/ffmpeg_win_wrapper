@@ -1,31 +1,31 @@
 #!/usr/bin/env python3
 
 amd={      
-    'sub': '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -c:a copy -c:s mov_text -metadata:s:s:0 language=en' ,
-    'sub_hevc':  '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en' ,
-    'h264':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -c:a copy' ,
-    'hevc':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy'
+    'sub': '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -c:a copy -c:s mov_text -metadata:s:s:0 language=en -map 0:t? -c:t copy' ,
+    'sub_hevc':  '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en -map 0:t? -c:t copy' ,
+    'h264':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -c:a copy -map 0:t? -c:t copy' ,
+    'hevc':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy -map 0:t? -c:t copy'
     }
 nvidia={      
     'sub':  '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -c:a copy -c:s mov_text -metadata:s:s:0 language=en' ,
-    'sub_hevc':  '-map:{vstream} 0:v -map 0:a -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en' ,
-    'h264':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -c:a copy' ,
-    'hevc':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy'
+    'sub_hevc':  '-map:{vstream} 0:v -map 0:a -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en -map 0:t? -c:t copy' ,
+    'h264':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -c:a copy -map 0:t? -c:t copy' ,
+    'hevc':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy -map 0:t? -c:t copy'
     }
 default_none={      
-    'sub':  '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -c:a copy -c:s mov_text -metadata:s:s:0 language=en' ,
-    'sub_hevc':  '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en' ,
-    'h264':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -c:a copy' ,
-    'hevc':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy'
+    'sub':  '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -c:a copy -c:s mov_text -metadata:s:s:0 language=en -map 0:t? -c:t copy' ,
+    'sub_hevc':  '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy -c:s mov_text -metadata:s:s:0 language=en -map 0:t? -c:t copy' ,
+    'h264':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -c:a copy -map 0:t? -c:t copy' ,
+    'hevc':  '-c:v:{vstream} {gpu_codec} -preset fast -crf {rate} -vtag hvc1 -c:a copy -map 0:t? -c:t copy'
     }
 copy_files={      
-    'copy':  '-c:v copy -c:a copy -c:s copy' ,
-    'copy_sub':  '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v copy -c:a copy -c:s mov_text -metadata:s:s:0 language=en'
+    'copy':  '-c:v copy -c:a copy -c:s copy -c:t copy' ,
+    'copy_sub':  '-map 0:v:{vstream} -map 0:a:{astream} -map 0:{sstream}? -c:v copy -c:a copy -c:s mov_text -metadata:s:s:0 language=en -map 0:t? -c:t copy'
     }
 special={       # Default ffmpeg presets were adding distracting amounts of pixelation during transcoding, changed to yuv420p from nv12
-    'special_sub': '-map 0:v:{vstream} -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt {pix_fmt} -b:v 0K -vtag hvc1 -map 0:a:{astream} -c:a copy -map 0:{sstream}? -c:s mov_text -metadata:s:s:0 language=en',
-    'special_copy': '-map 0:v:{vstream} -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt {pix_fmt} -b:v 0K -vtag hvc1 -map 0:a:{astream} -c:a copy -map 0:{sstream}? -c:s copy',
-    'special_trans': '-map 0:v:{vstream} -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt {pix_fmt} -b:v 0K -vtag hvc1 -map 0:a -c:a copy -map 0:s? -c:s copy'
+    'special_sub': '-map 0:v:{vstream} -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt {pix_fmt} -b:v 0K -vtag hvc1 -map 0:a:{astream} -c:a copy -map 0:{sstream}? -c:s mov_text -metadata:s:s:0 language=en -map 0:t? -c:t copy',
+    'special_copy': '-map 0:v:{vstream} -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt {pix_fmt} -b:v 0K -vtag hvc1 -map 0:a:{astream} -c:a copy -map 0:{sstream}? -c:s copy  -map 0:t? -c:t copy',
+    'special_trans': '-map 0:v:{vstream} -c:v {gpu_codec} {gpu_special_options} -qmin {rate} -pix_fmt {pix_fmt} -b:v 0K -vtag hvc1 -map 0:a -c:a copy -map 0:s? -c:s copy -map 0:t? -c:t copy'
 }
 
 gpu_special_options={
