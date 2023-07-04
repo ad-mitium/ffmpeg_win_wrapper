@@ -51,6 +51,7 @@ Again, while this will work, I cannot provide additional assistance on making th
 The following optional flags are:
 
     -c, --check-file            Enable probing file for encoded information 
+    -dca, --disable-copy-attach Disable copying file attachments 
     -ddt, --disable-dict        Disable dictionary for mutliple copy locations
     -dlc, --disable-local-dir   Disable local output directory, save in current folder
     -dtc, --tc_disable          Disables transcoding (For debugging)
@@ -100,6 +101,7 @@ There are some subtle distictions between the three options:
 * If you receive an error message regarding a missing output_file, check to see if one of the other required parameters are missing, usually it is the action command or destination folder that is forgotten
 * If you are using linux, AMD amf drivers don't exist, use default (None) or modify ffmpeg_options.py to use VAAPI
 * When using the command prompt, use double quotes (") to surround text with spaces (or use PowerShell as Microsoft want you to)
+* You must change the extension to MKV (not default) to copy attachments because MP4 containers can't handle attachments, if not changed attachments will not be copied to output
   
 ### Required to use this script *(Aside from Python 3)*
 

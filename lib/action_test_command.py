@@ -17,7 +17,7 @@ def opttest(F_OPTIONS,Message,Custom_Options):
         colors.print_yellow(textwrap.fill(text=Custom_Options, width=defaults['option_wrap_width'], subsequent_indent='        '))
         exit_on_error()
 
-def action_test(action, GPU_brand, vid_stream, aud_stream, sub_stream, extension, enc_rate, cust_options):
+def action_test(action, GPU_brand, vid_stream, aud_stream, sub_stream, extension, enc_rate, cust_options, append_attach):
 
     FFMPEG_SET_OPTIONS, encode_format, gpu_options = set_ffmpeg_conditions(action, GPU_brand)
     # print(encode_format)
@@ -27,41 +27,41 @@ def action_test(action, GPU_brand, vid_stream, aud_stream, sub_stream, extension
     if (action == 'special_copy'): 
         extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
         FFMPEG_OPTIONS=FFMPEG_SET_OPTIONS.format(
-            vstream=vid_stream,pix_fmt=pixel_format[GPU_brand],astream=aud_stream,sstream=sub_stream,rate=enc_rate,gpu_codec=encode_format,gpu_special_options=gpu_options)
+            vstream=vid_stream,pix_fmt=pixel_format[GPU_brand],astream=aud_stream,sstream=sub_stream,rate=enc_rate,gpu_codec=encode_format,gpu_special_options=gpu_options,copy_attach=append_attach)
         Message="Special HEVC transcode and subtitle copy option request detected and the options are: \n   "
         opttest(FFMPEG_OPTIONS, Message, cust_options)
     else:
         if (action == 'special_sub'): 
             FFMPEG_OPTIONS=FFMPEG_SET_OPTIONS.format(
-                vstream=vid_stream,pix_fmt=pixel_format[GPU_brand],astream=aud_stream,sstream=sub_stream,rate=enc_rate,gpu_codec=encode_format,gpu_special_options=gpu_options)
+                vstream=vid_stream,pix_fmt=pixel_format[GPU_brand],astream=aud_stream,sstream=sub_stream,rate=enc_rate,gpu_codec=encode_format,gpu_special_options=gpu_options,copy_attach=append_attach)
             Message="Special subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'special_trans'): 
             extension = 'mkv'       # This special case breaks MP4 container conventions, save as mkv instead
             FFMPEG_OPTIONS=FFMPEG_SET_OPTIONS.format(
-                vstream=vid_stream,pix_fmt=pixel_format[GPU_brand],astream=aud_stream,rate=enc_rate,gpu_codec=encode_format,gpu_special_options=gpu_options)
+                vstream=vid_stream,pix_fmt=pixel_format[GPU_brand],astream=aud_stream,rate=enc_rate,gpu_codec=encode_format,gpu_special_options=gpu_options,copy_attach=append_attach)
             Message="Special HEVC transcode option request detected and the options are: \n   "
         elif (action == 'copy'): 
-            FFMPEG_OPTIONS=FFMPEG_SET_OPTIONS
+            FFMPEG_OPTIONS=FFMPEG_SET_OPTIONS.format(copy_attach=append_attach)
             Message="Copy option request detected and the options are: \n   "
         elif (action == 'copysub'): 
             FFMPEG_OPTIONS=FFMPEG_SET_OPTIONS.format(
-                vstream=vid_stream,astream=aud_stream,sstream=sub_stream)
+                vstream=vid_stream,astream=aud_stream,sstream=sub_stream,copy_attach=append_attach)
             Message="Copy subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'subtrans'): 
             FFMPEG_OPTIONS=FFMPEG_SET_OPTIONS.format(
-                vstream=vid_stream,astream=aud_stream,sstream=sub_stream,rate=enc_rate,gpu_codec=encode_format)
+                vstream=vid_stream,astream=aud_stream,sstream=sub_stream,rate=enc_rate,gpu_codec=encode_format,copy_attach=append_attach)
             Message="Subtitle H.264 option request detected and the options are: \n   "
         elif (action == 'subtrans265'): 
             FFMPEG_OPTIONS=FFMPEG_SET_OPTIONS.format(
-                vstream=vid_stream,astream=aud_stream,sstream=sub_stream,rate=enc_rate,gpu_codec=encode_format)
+                vstream=vid_stream,astream=aud_stream,sstream=sub_stream,rate=enc_rate,gpu_codec=encode_format,copy_attach=append_attach)
             Message="Subtitle HEVC option request detected and the options are: \n   "
         elif (action == 'trans265'): 
             FFMPEG_OPTIONS=FFMPEG_SET_OPTIONS.format(
-                vstream=vid_stream,rate=enc_rate,gpu_codec=encode_format)
+                vstream=vid_stream,rate=enc_rate,gpu_codec=encode_format,copy_attach=append_attach)
             Message="Transcode HEVC option request detected and the options are: \n   "
         elif (action == 'transcode'): 
             FFMPEG_OPTIONS=FFMPEG_SET_OPTIONS.format(
-                vstream=vid_stream,rate=enc_rate,gpu_codec=encode_format)        
+                vstream=vid_stream,rate=enc_rate,gpu_codec=encode_format,copy_attach=append_attach)        
             Message="Transcode H.264 option request detected and the options are: \n   "
 
         else:
@@ -90,53 +90,32 @@ def set_ffmpeg_conditions(action_command,GPU_brand):
     # Configure FFMPEG Options before processing action command
     if (GPU_brand in 'amd'):
         gpu_options=gpu_special_options['amd']
-        if (action_command in ('transcode','subtrans')):
-            encode_type='h264_amf'
-            if (action_command == 'transcode'):
-                F_OPTIONS=default_none['h264']
-            else:
-                F_OPTIONS=default_none['sub']
-        if (action_command in ('trans265','subtrans265')):
-            encode_type='h265_amf'
-            if (action_command == 'trans265'):
-                F_OPTIONS=default_none['hevc']
-            else:
-                F_OPTIONS=default_none['sub_hevc']
+        gpu_key= 'amd'
     elif GPU_brand in 'nvidia':
         gpu_options=gpu_special_options['nvidia']
-        if (action_command in ('transcode','subtrans')):
-            encode_type='h264_nvenc'
-            if (action_command == 'transcode'):
-                F_OPTIONS=default_none['h264']
-            else:
-                F_OPTIONS=default_none['sub']
-        if (action_command in ('trans265','subtrans265')):
-            encode_type='hevc_nvenc'
-            if (action_command == 'trans265'):
-                F_OPTIONS=default_none['hevc']
-            else:
-                F_OPTIONS=default_none['sub_hevc']
+        gpu_key= 'nvidia'
     else:
         gpu_options=gpu_special_options['none']
-        if (action_command in ('transcode','subtrans')):
-            encode_type='libx264'
-            if (action_command == 'transcode'):
-                F_OPTIONS=default_none['h264']
-            else:
-                F_OPTIONS=default_none['sub']
-        if (action_command in ('trans265','subtrans265')):
-            encode_type='libx265'
-            if (action_command == 'trans265'):
-                F_OPTIONS=default_none['hevc']
-            else:
-                F_OPTIONS=default_none['sub_hevc']
+        gpu_key= 'default_none'
+    
+    if (action_command in ('transcode','subtrans')):
+        encode_type='libx264'
+        if (action_command == 'transcode'):
+            F_OPTIONS=gpu_dict[gpu_key]['h264']
+        else:
+            F_OPTIONS=gpu_dict[gpu_key]['sub']
 
-    if (action_command in ('copy','copysub')):
-        if action_command == 'copysub':
-            action_command = 'copy_sub'    # Work around due to different naming schemes
+    elif (action_command in ('trans265','subtrans265')):
+        encode_type='libx265'
+        if (action_command == 'trans265'):
+            F_OPTIONS=gpu_dict[gpu_key]['hevc']
+        else:
+            F_OPTIONS=gpu_dict[gpu_key]['sub_hevc']
+
+    elif (action_command in ('copy','copysub')):
         F_OPTIONS=copy_files[action_command]
 
-    if (action_command in ('special_copy','special_sub','special_trans')):
+    elif (action_command in ('special_copy','special_sub','special_trans')):
         if GPU_brand == 'amd':
             encode_type = 'hevc_amf'
         elif GPU_brand == 'nvidia':
@@ -146,6 +125,7 @@ def set_ffmpeg_conditions(action_command,GPU_brand):
         F_OPTIONS=special[action_command]
     else:
         F_OPTIONS='Invalid options'    # If none of the action commands are given, send malformed options message
+    # print (action_command,F_OPTIONS)  # Diagnostics
 
     return(F_OPTIONS,encode_type,gpu_options)
 
@@ -153,7 +133,7 @@ if (__name__ == '__main__'):
     import sys
     import colors
     sys.path.append('config')   # allows for finding ffmpeg_options.py
-    from ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format,encode_codec_type
+    from ffmpeg_options import gpu_dict,copy_files,special,gpu_special_options,pixel_format,encode_codec_type
     from dest_folders import defaults
 
     def exit_on_error():    # Circular import of colors.py when pulling in common_functions.py
@@ -164,6 +144,7 @@ if (__name__ == '__main__'):
             print("Exiting.")
             raise SystemExit(0)
 
+    append_attach = '-map 0:t? -c:t copy'
     video_stream=0
     audio_stream=0
     subtitle_stream=2
@@ -184,11 +165,11 @@ if (__name__ == '__main__'):
     conditions, encode_format, gpu_options=set_ffmpeg_conditions(action_command, enabled_gpu)
     print('From set ffmpeg conditions: ',encode_format,conditions,gpu_options)
 
-    options, extension = action_test(action_command, enabled_gpu, video_stream, audio_stream, subtitle_stream, extension, encode_rate, OPT_TEST)
+    options, extension = action_test(action_command, enabled_gpu, video_stream, audio_stream, subtitle_stream, extension, encode_rate, OPT_TEST,append_attach)
     # print(f'[{options}] [{extension}]')
     
 else:
     import lib.colors as colors
-    from config.ffmpeg_options import amd,nvidia,default_none,copy_files,special,gpu_special_options,pixel_format,encode_codec_type
+    from config.ffmpeg_options import gpu_dict,copy_files,special,gpu_special_options,pixel_format,encode_codec_type
     from lib.common_functions import exit_on_error
     from config.dest_folders import defaults

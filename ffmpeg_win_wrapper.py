@@ -22,7 +22,7 @@ from lib.action_test_command import action_test
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 1, 00)
+version_number = (0, 1, 1)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -66,6 +66,7 @@ parser.add_argument('dest_folder', help='''Enter ouput folder path surrounded by
 parser.add_argument('output_file', help='''Enter output file name without extension''')
 parser.add_argument('-as','--audio-stream', default=defaults['audio_stream'], help='''Select audio stream, defaults to first stream''') 
 parser.add_argument('-c','--check-file', action='store_true',help='''Probe file for encoded information''') 
+parser.add_argument('-dca','--disable-copy-attach', action='store_false',help='''Disable copying file attachments''') 
 parser.add_argument('-ddt','--disable-dict', action='store_false',help='''Disable copy to remote folder using dictionary''') 
 parser.add_argument('-dlc','--disable-local_dir', action='store_false',help='''Disable local ouput directory, save in current folder''') 
 parser.add_argument('-dtc','--tc-disable', action='store_false',help='''Disable transcoding (For debugging)''') 
@@ -103,6 +104,14 @@ enabled_dict=args.disable_dict
 enabled_GPU=args.gpu.lower()
 enabled_local_copy=args.disable_local_dir
 enabled_transcode=args.tc_disable
+enabled_copy_attach=args.disable_copy_attach
+
+if enabled_copy_attach:
+    append_attach='-map 0:t? -c:t copy'
+    #colors.print_red(append_attach)
+else:
+    append_attach=''
+    #colors.print_red(append_attach)
 
 test_path(base_outdir,enabled_copy)
 
@@ -147,7 +156,7 @@ hwtest()
 # print(OPT_TEST)   # For debugging
 
 # Check action command requested
-FFMPEG_OPTIONS, extension = action_test(action,args.gpu.lower(),video_stream,audio_stream,subtitle_stream,args.ext.lower(),rate,OPT_TEST)
+FFMPEG_OPTIONS, extension = action_test(action,args.gpu.lower(),video_stream,audio_stream,subtitle_stream,args.ext.lower(),rate,OPT_TEST,append_attach)
 
 ########   Echo back info provided   ########
 #print ('Input filename is', end =" ")
