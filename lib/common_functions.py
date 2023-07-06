@@ -60,7 +60,7 @@ def copy_to_remote(full_path_name,full_path,filename_ext,copy_status):
     print("", end =" ")
     if copy_status:
         test_path(full_path,copy_status)
-        shutil.copy(filename_ext, full_path)
+        shutil.copy2(filename_ext, full_path)
     # colors.print_cyan_no_cr(output_directory)
     # print("", end =" ")
     colors.print_yellow_no_cr(filename_ext if len(filename_ext)<defaults['filename_wrap_width'] 
