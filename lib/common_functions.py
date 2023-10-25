@@ -56,6 +56,7 @@ def test_path(output_folder_path, copy_status):
                 width=defaults['display_wrap_width'], subsequent_indent='               '))
 
 def copy_to_remote(full_path_name,full_path,filename_ext,copy_status):
+    err_flag = False
     colors.print_cyan_no_cr(full_path_name)
     print("", end =" ")
     if copy_status:
@@ -65,15 +66,17 @@ def copy_to_remote(full_path_name,full_path,filename_ext,copy_status):
         except Exception:
             err_message = "Unabe to copy to"+ full_path
             colors.print_red_error(err_message)
+            err_flag = True
     # colors.print_cyan_no_cr(output_directory)
     # print("", end =" ")
-    colors.print_yellow_no_cr(filename_ext if len(filename_ext)<defaults['filename_wrap_width'] 
-        else textwrap.fill(text=filename_ext, width=defaults['filename_wrap_width'], subsequent_indent='               '))
-    print('{} copied to'.format('' if copy_status else ' would be'), end =" ")
-    print('' if len(filename_ext)<defaults['filename_wrap_width'] else '\n           ', end="") # new line becuase the filename was too long
-    colors.print_white_no_cr(textwrap.fill(text=full_path, width=defaults['foldername_wrap_width'], subsequent_indent='          ') 
-        if len(filename_ext)<defaults['filename_wrap_width'] 
-        else textwrap.fill(text=full_path, width=defaults['display_wrap_width'], subsequent_indent='               '))
+    if not err_flag:
+        colors.print_yellow_no_cr(filename_ext if len(filename_ext)<defaults['filename_wrap_width'] 
+            else textwrap.fill(text=filename_ext, width=defaults['filename_wrap_width'], subsequent_indent='               '))
+        print('{} copied to'.format('' if copy_status else ' would be'), end =" ")
+        print('' if len(filename_ext)<defaults['filename_wrap_width'] else '\n           ', end="") # new line becuase the filename was too long
+        colors.print_white_no_cr(textwrap.fill(text=full_path, width=defaults['foldername_wrap_width'], subsequent_indent='          ') 
+            if len(filename_ext)<defaults['filename_wrap_width'] 
+            else textwrap.fill(text=full_path, width=defaults['display_wrap_width'], subsequent_indent='               '))
 
 if (__name__ == '__main__'): 
     import colors
