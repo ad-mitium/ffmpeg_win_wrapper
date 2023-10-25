@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os,shutil,textwrap
+import os,shutil,textwrap,traceback
 from pathlib import Path
 
 
@@ -63,10 +63,12 @@ def copy_to_remote(full_path_name,full_path,filename_ext,copy_status):
         test_path(full_path,copy_status)
         try:
             shutil.copy2(filename_ext, full_path)
-        except Exception:
+        except Exception as except_msg:
             err_message = "Unabe to copy to"+ full_path
             colors.print_red(err_message)
             err_flag = True
+            print (except_msg)
+            # traceback.print_exc()
     # colors.print_cyan_no_cr(output_directory)
     # print("", end =" ")
     if not err_flag:
