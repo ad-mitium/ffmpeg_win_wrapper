@@ -65,7 +65,7 @@ def copy_to_remote(full_path_name,full_path,filename_ext,copy_status):
             shutil.copy2(filename_ext, full_path)
         except Exception:
             err_message = "Unabe to copy to"+ full_path
-            colors.print_red_error(err_message)
+            colors.print_red(err_message)
             err_flag = True
     # colors.print_cyan_no_cr(output_directory)
     # print("", end =" ")
