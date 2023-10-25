@@ -63,7 +63,8 @@ def copy_to_remote(full_path_name,full_path,filename_ext,copy_status):
         try:
             shutil.copy2(filename_ext, full_path)
         except Exception:
-            print_red_error("Unabe to copy to", full_path)
+            err_message = "Unabe to copy to"+ full_path
+            colors.print_red_error(err_message)
     # colors.print_cyan_no_cr(output_directory)
     # print("", end =" ")
     colors.print_yellow_no_cr(filename_ext if len(filename_ext)<defaults['filename_wrap_width'] 
