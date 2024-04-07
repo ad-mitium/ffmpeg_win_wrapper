@@ -40,6 +40,16 @@ def hwtest():
         colors.print_yellow(textwrap.fill(text=HW_TEST, width=defaults['option_wrap_width'], subsequent_indent='        '))
         exit_on_error()
 
+def gpu_options_test(GPU_brand):     # Add GPU specific hardware commands, workaround because argparse doesn't like -hwaccel
+    global FFMPEG_HW_OPTIONS
+
+    if (GPU_brand in 'amd'):
+        FFMPEG_HW_OPTIONS=FFMPEG_HW_OPTIONS + ""
+    elif GPU_brand in 'nvidia':
+        FFMPEG_HW_OPTIONS=FFMPEG_HW_OPTIONS + "-hwaccel cuda -hwaccel_output_format cuda"   # From nVidia's ffmpeg HW accel page
+    else:
+        FFMPEG_HW_OPTIONS=FFMPEG_HW_OPTIONS + ""
+
 
 
 ##############################################################################
@@ -151,7 +161,11 @@ colors.print_red(rate)
 OPT_TEST=args.ffmpeg_option
 HW_TEST=args.ffmpeg_hardware
 
+# print(HW_TEST)   # For debugging
+
 hwtest()
+
+gpu_options_test()
 
 # print(OPT_TEST)   # For debugging
 
