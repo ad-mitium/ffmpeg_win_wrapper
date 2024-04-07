@@ -165,7 +165,7 @@ HW_TEST=args.ffmpeg_hardware
 
 hwtest()
 
-gpu_options_test()
+gpu_options_test(args.gpu.lower())
 
 # print(OPT_TEST)   # For debugging
 
