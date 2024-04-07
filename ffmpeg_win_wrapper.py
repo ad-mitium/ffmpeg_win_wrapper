@@ -44,11 +44,11 @@ def gpu_options_test(GPU_brand):     # Add GPU specific hardware commands, worka
     global FFMPEG_HW_OPTIONS
 
     if (GPU_brand in 'amd'):
-        FFMPEG_HW_OPTIONS=FFMPEG_HW_OPTIONS + ""
+        FFMPEG_HW_OPTIONS=FFMPEG_HW_OPTIONS + " "
     elif GPU_brand in 'nvidia':
-        FFMPEG_HW_OPTIONS=FFMPEG_HW_OPTIONS + "-hwaccel cuda -hwaccel_output_format cuda"   # From nVidia's ffmpeg HW accel page
+        FFMPEG_HW_OPTIONS=FFMPEG_HW_OPTIONS + " -hwaccel cuda -hwaccel_output_format cuda"   # From nVidia's ffmpeg HW accel page
     else:
-        FFMPEG_HW_OPTIONS=FFMPEG_HW_OPTIONS + ""
+        FFMPEG_HW_OPTIONS=FFMPEG_HW_OPTIONS + " "
 
 
 
