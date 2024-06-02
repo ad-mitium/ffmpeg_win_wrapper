@@ -44,7 +44,7 @@ pixel_format={
     'none':'yuv420p'        # Not doing 10 bit without a GPU at this time, sorry no Intel support for QSV at this time due to lack of testing hardware
 }
 
-encode_codec_type={
+encode_codec_type={         # This snippet of code is not in use. See set_ffmpeg_conditions() in action_test_comamnd.py for actual codec usage
     'h264':{'amd':'h264_amf','nvidia':'h264_nvenc','none':'libx264'},
     'h265':{'amd':'hevc_amf','nvidia':'hevc_nvenc','none':'libx265'},
     '':{''}
