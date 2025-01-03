@@ -64,6 +64,7 @@ The following optional flags are:
     -r, --encode-rate           Set encode rate, default is 23
     -opt, --ffmpeg-option       Override default options for custom options provided by user 
     -as, --audio-stream         Select audio stream, defaults to first stream (0)
+    -mss, --multi-sub-stream    Select multiple subtitle streams, surround options with ""
     -ss, --sub-stream           Select subtitle stream, defaults to second stream (2)
     -vs, --video-stream         Select subtitle stream, defaults to first stream (0)
     
@@ -94,6 +95,16 @@ There are some subtle distictions between the three options:
     special_sub     Allows you to select video, audio and subtitle streams, but transcodes into a mp4 container
     special_trans   Allows you to select the video stream, and then copies all audio and subtitle streams
 
+### Special subtitle flags
+
+You can select a non-default (2) subtitle stream using the ```-ss``` flag or multiple streams with the ```-mss``` flag. If using the ```-mss``` flag, you need to surround the indicated stream numbers with ```""```. 
+
+An example:
+
+    -mss "1-4,6"
+    
+This would indicate that streams 1, 2, 3, 4, and 6 are desired. Currently in beta.
+
 ## Pitfalls to be aware of
 
 * You need to download a Windows compiled version for FFMPEG from ffmpeg.org (I'm using the one linked to gyan.dev)
@@ -120,5 +131,7 @@ There are some subtle distictions between the three options:
 * ~~Move defined functions to lib folder (as appropriate)~~
 * ~~Fix inelegant stream # handling~~
 * ~~Add ability to insert stream channel instead of defaulting to first sub stream~~
+* Complete the `get_multi_sub()` functionality
+* Add ability to select audio streams to be copied
 * Reduce the number of locations to update when adding new actions, currently four locations in three separate files need to be changed
 * TBD

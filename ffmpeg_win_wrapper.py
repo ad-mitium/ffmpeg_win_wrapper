@@ -10,7 +10,7 @@ import textwrap
 from config.dest_folders import out_dir_dict,out_dir,report_folder,local_folder,defaults
 from lib.action_description import action_description as act_desc
 from lib.common_functions import check_num,exit_on_error,joinpath,probetest,test_path,copy_to_remote
-from lib.action_test_command import action_test
+from lib.action_test_command import action_test,get_multi_sub
 
 ##############################################################################
 #####                                                                    #####
@@ -22,7 +22,7 @@ from lib.action_test_command import action_test
 
 
 start_time= strftime('%H%M%S')
-version_number = (0, 1, 1)
+version_number = (0, 1, 2)
 #GPU='AMD'    # Force to AMD GPUs, change to NVIDIA if needed
 
 #########   Useful functions   #########
@@ -89,6 +89,7 @@ parser.add_argument('-opt','--ffmpeg-option', help='''Custom ffmpeg options, opt
 Options should start with a - (see examples below)''') 
 parser.add_argument('-r','--encode-rate', default=defaults['encode_rate'],help='''Encode rate, default is 23''') 
 parser.add_argument('-rep','--report-file', help='''Enter STDIO report file name (deprecated)''') 
+parser.add_argument('-mss','--multi-sub-stream', default=defaults['stream'], help='''Select multiple subtitle streams, streams must be surrounded by ""''') 
 parser.add_argument('-ss','--sub-stream', default=defaults['stream'], help='''Select subtitle stream, defaults to 2''') 
 parser.add_argument('-v','--version', action='version', version='%(prog)s {}'.format(ver.ver_info(version_number)), help='show the version number and exit')
 parser.add_argument('-vs','--video-stream', default=defaults['video_stream'], help='''Select video stream, defaults to 0''') 
@@ -167,6 +168,8 @@ HW_TEST=args.ffmpeg_hardware
 hwtest()
 
 gpu_options_test(args.gpu.lower())
+
+get_multi_sub(args.multi_sub_stream)
 
 # print(OPT_TEST)   # For debugging
 

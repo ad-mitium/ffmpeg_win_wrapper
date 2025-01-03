@@ -129,10 +129,40 @@ def set_ffmpeg_conditions(action_command,GPU_brand):
 
     return(F_OPTIONS,encode_type,gpu_options)
 
+def get_multi_sub(Custom_Options):
+    subs=[]
+    for i in Custom_Options:
+        subs.append(i)
+        # print (i)
+    if Custom_Options == None:
+        colors.print_green_no_cr("No Custom Options")
+        colors.print_yellow (textwrap.fill(text=type(subs), width=defaults['option_wrap_width'], subsequent_indent='        '))
+    elif "-" and "," in Custom_Options:
+        global FFMPEG_OPTIONS
+        colors.print_green_no_cr ("'-' and ',' detected, splitting to individual streams: \n   ")
+        colors.print_yellow(textwrap.fill(text=str(subs), width=defaults['option_wrap_width'], subsequent_indent='        '))
+    elif "-" in Custom_Options:
+        global FFMPEG_OPTIONS
+        colors.print_green_no_cr ("'-' detected, splitting to individual streams: \n   ")
+        colors.print_yellow(textwrap.fill(text=str(subs), width=defaults['option_wrap_width'], subsequent_indent='        '))
+    elif "," in Custom_Options:
+        global FFMPEG_OPTIONS
+        colors.print_green_no_cr ("',' detected, appending individual streams: \n   ")
+        colors.print_yellow(textwrap.fill(text=str(subs), width=defaults['option_wrap_width'], subsequent_indent='        '))
+    else:
+        test_type='custom ffmpeg options'
+        # colors.print_red_error(test_type)
+        colors.print_yellow(textwrap.fill(text=test_type+"Input: "+Custom_Options, width=defaults['option_wrap_width'], subsequent_indent='        '))
+        # exit_on_error()
+
+    # print (subs)
+    return (subs)
+
 if (__name__ == '__main__'):
     import sys
+    from pathlib import Path
     import colors
-    sys.path.append('config')   # allows for finding ffmpeg_options.py
+    sys.path.append(str(Path().absolute())+'/'+'config')   # allows for finding ffmpeg_options.py
     from ffmpeg_options import gpu_dict,copy_files,special,gpu_special_options,pixel_format,encode_codec_type
     from dest_folders import defaults
 
@@ -144,6 +174,13 @@ if (__name__ == '__main__'):
             print("Exiting.")
             raise SystemExit(0)
 
+    # multi_subs = "1-4"
+    # multi_subs = "1,2,4"
+    multi_subs = "1-4,6"
+
+    sub_results = get_multi_sub(multi_subs)
+    # print(f'In: [{multi_subs}]  Out: [{sub_results}]')
+
     append_attach = '-map 0:t? -c:t copy'
     video_stream=0
     audio_stream=0
@@ -152,12 +189,12 @@ if (__name__ == '__main__'):
     extension='mp4'
     OPT_TEST=None
 
-    enabled_gpu=input("Please enter GPU type: ")
+    enabled_gpu=input("Please enter GPU type ('amd','nvidia'): ")
     if enabled_gpu not in ('amd','nvidia'):
         enabled_gpu = 'none'
     print('Invalid GPU type, defaulting to',end=' ')
     colors.print_red(enabled_gpu)
-    action_command=input("Please enter an action command: ")
+    action_command=input("Please enter an action command ('special_copy','special_sub','special_trans','copy','copysub','subtrans','subtrans265','transcode','trans265'): ")
     # print(action_command)
     if action_command not in ('special_copy','special_sub','special_trans','copy','copysub','subtrans','subtrans265','transcode','trans265'):
         action_command == ''
