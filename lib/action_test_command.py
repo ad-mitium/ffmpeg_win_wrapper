@@ -162,9 +162,9 @@ if (__name__ == '__main__'):
     import sys
     from pathlib import Path
     import colors
-    sys.path.append(str(Path().absolute())+'/'+'config')   # allows for finding ffmpeg_options.py
-    from ffmpeg_options import gpu_dict,copy_files,special,gpu_special_options,pixel_format,encode_codec_type
-    from dest_folders import defaults
+    # sys.path.append(str(Path().absolute())+'/'+'config')   # allows for finding ffmpeg_options.py
+    from ..config.ffmpeg_options import gpu_dict,copy_files,special,gpu_special_options,pixel_format,encode_codec_type
+    from ..config.dest_folders import defaults
 
     def exit_on_error():    # Circular import of colors.py when pulling in common_functions.py
         answer = input("Continue with default options? [y/N]  ").lower()

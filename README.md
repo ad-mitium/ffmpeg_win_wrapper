@@ -97,7 +97,7 @@ There are some subtle distictions between the three options:
 
 ### Special subtitle flags
 
-You can select a non-default (2) subtitle stream using the ```-ss``` flag or multiple streams with the ```-mss``` flag. If using the ```-mss``` flag, you need to surround the indicated stream numbers with ```""```. 
+You can select a non-default (2) subtitle stream using the ```-ss``` flag or multiple streams with the ```-mss``` flag. If using the ```-mss``` flag, you need to surround the indicated stream numbers with ```""```.
 
 An example:
 
